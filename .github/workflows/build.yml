@@ -1,0 +1,44 @@
+name: Build
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache VS DLLs
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/vs-game
+          key: vs-game-1.22.1
+
+      - name: Download VS DLLs
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/vs-game/Mods ~/vs-game/Lib /tmp/vs-extract
+          curl -sSL https://cdn.vintagestory.at/gamefiles/stable/vs_client_linux-x64_1.22.1.tar.gz \
+            | tar xz -C /tmp/vs-extract
+          VS_ROOT=$(find /tmp/vs-extract -name "VintagestoryAPI.dll" -printf '%h\n' -quit)
+          cp "$VS_ROOT"/VintagestoryAPI.dll ~/vs-game/
+          cp "$VS_ROOT"/VintagestoryLib.dll ~/vs-game/
+          cp "$VS_ROOT"/Vintagestory.dll ~/vs-game/
+          cp "$VS_ROOT"/Mods/VSSurvivalMod.dll ~/vs-game/Mods/
+          cp "$VS_ROOT"/Lib/SkiaSharp.dll ~/vs-game/Lib/
+          cp "$VS_ROOT"/Lib/Newtonsoft.Json.dll ~/vs-game/Lib/
+          rm -rf /tmp/vs-extract
+
+      - name: Build
+        run: dotnet build DriftRelics.csproj -c Release -p:VintageStoryPath=$HOME/vs-game
+
+      - name: Test
+        run: dotnet test tests/DriftRelics.Tests/DriftRelics.Tests.csproj -c Release --no-restore

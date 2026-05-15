@@ -1,0 +1,73 @@
+# PR path-based labeling rules (used by actions/labeler)
+
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'docs/**'
+      - 'README.md'
+      - 'CLAUDE.md'
+
+assets:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'assets/**'
+
+crafting:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'assets/driftrelics/recipes/**'
+
+affixes:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Affix/**'
+      - 'assets/driftrelics/config/affixes.json'
+
+lectern:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Blocks/BlockScholarsLectern.cs'
+      - 'src/Blocks/BEScholarsLectern.cs'
+      - 'assets/driftrelics/blocktypes/scholarslectern.json'
+      - 'assets/driftrelics/config/lectern.json'
+
+inventory:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Inventory/**'
+      - 'src/Entity/EntityBehaviorRelics.cs'
+
+items:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Items/**'
+      - 'assets/driftrelics/itemtypes/**'
+
+modifiers:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Modifier/**'
+
+api:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Api/**'
+
+gui:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'src/Gui/**'
+
+tests:
+  - changed-files:
+    - any-glob-to-any-file:
+      - 'tests/**'
+
+chore:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/**'
+      - '.gitignore'
+      - 'global.json'
+      - '*.csproj'
+      - '*.slnx'

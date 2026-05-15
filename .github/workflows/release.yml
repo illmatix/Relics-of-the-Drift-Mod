@@ -1,0 +1,116 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine version bump
+        id: bump
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_SHA_ENV: ${{ github.sha }}
+        run: |
+          PR_NUMBER=$(gh pr list --state merged --base main --json number,mergeCommit \
+            --jq ".[] | select(.mergeCommit.oid == \"${GITHUB_SHA_ENV}\") | .number")
+          BUMP="patch"
+          if [ -n "$PR_NUMBER" ]; then
+            LABELS=$(gh pr view "$PR_NUMBER" --json labels --jq '.labels[].name')
+            if echo "$LABELS" | grep -q "version:major"; then
+              BUMP="major"
+            elif echo "$LABELS" | grep -q "version:minor"; then
+              BUMP="minor"
+            fi
+          fi
+          echo "bump=$BUMP" >> "$GITHUB_OUTPUT"
+
+      - name: Calculate next version
+        id: version
+        env:
+          BUMP: ${{ steps.bump.outputs.bump }}
+        run: |
+          LATEST=$(git tag -l 'v*' --sort=-v:refname | head -n1)
+          if [ -z "$LATEST" ]; then
+            NEXT="0.1.0"
+          else
+            VER="${LATEST#v}"
+            IFS='.' read -r MAJOR MINOR PATCH <<< "$VER"
+            if [ "$BUMP" = "major" ]; then
+              NEXT="$((MAJOR + 1)).0.0"
+            elif [ "$BUMP" = "minor" ]; then
+              NEXT="${MAJOR}.$((MINOR + 1)).0"
+            else
+              NEXT="${MAJOR}.${MINOR}.$((PATCH + 1))"
+            fi
+          fi
+          echo "version=$NEXT" >> "$GITHUB_OUTPUT"
+
+      - name: Inject version into modinfo.json
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          jq --arg v "$VERSION" '.version = $v' modinfo.json > modinfo.tmp && mv modinfo.tmp modinfo.json
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Cache VS DLLs
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: ~/vs-game
+          key: vs-game-1.22.1
+
+      - name: Download VS DLLs
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/vs-game/Mods ~/vs-game/Lib /tmp/vs-extract
+          curl -sSL https://cdn.vintagestory.at/gamefiles/stable/vs_client_linux-x64_1.22.1.tar.gz \
+            | tar xz -C /tmp/vs-extract
+          VS_ROOT=$(find /tmp/vs-extract -name "VintagestoryAPI.dll" -printf '%h\n' -quit)
+          cp "$VS_ROOT"/VintagestoryAPI.dll ~/vs-game/
+          cp "$VS_ROOT"/VintagestoryLib.dll ~/vs-game/
+          cp "$VS_ROOT"/Vintagestory.dll ~/vs-game/
+          cp "$VS_ROOT"/Mods/VSSurvivalMod.dll ~/vs-game/Mods/
+          cp "$VS_ROOT"/Lib/SkiaSharp.dll ~/vs-game/Lib/
+          cp "$VS_ROOT"/Lib/Newtonsoft.Json.dll ~/vs-game/Lib/
+          rm -rf /tmp/vs-extract
+
+      - name: Build
+        run: dotnet build DriftRelics.csproj -c Release -p:VintageStoryPath=$HOME/vs-game
+
+      - name: Package ZIP
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          mkdir -p /tmp/package
+          cp bin/Release/DriftRelics.dll /tmp/package/
+          cp modinfo.json /tmp/package/
+          cp -r assets /tmp/package/
+          cd /tmp/package
+          zip -r "$GITHUB_WORKSPACE/DriftRelics-v${VERSION}.zip" .
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          gh release create "v${VERSION}" "DriftRelics-v${VERSION}.zip" \
+            --title "Relics of the Drift v${VERSION}" \
+            --generate-notes
