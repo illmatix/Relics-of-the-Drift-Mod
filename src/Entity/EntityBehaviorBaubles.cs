@@ -30,7 +30,14 @@ public class EntityBehaviorBaubles : EntityBehavior
         Inventory.SlotChanged = OnSlotChanged;
 
         LoadFromTree();
-        entity.WatchedAttributes.RegisterModifiedListener("baublesInv", LoadFromTree);
+        // Only the client needs to mirror server-pushed tree changes back into the
+        // local inventory. Registering on the server would cause our own SaveToTree
+        // calls to recursively re-load and re-fire slot-change events, double-
+        // applying stat modifiers and potentially recursing through OnSlotChanged.
+        if (api.Side == EnumAppSide.Client)
+        {
+            entity.WatchedAttributes.RegisterModifiedListener("baublesInv", LoadFromTree);
+        }
 
         // Re-apply modifiers for every currently-equipped, identified bauble.
         if (api.Side == EnumAppSide.Server)
