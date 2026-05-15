@@ -4,5 +4,12 @@
   "tab-hint": "Hover an empty slot to see what it accepts.",
   "item-ring": "Ring",
   "item-bracelet": "Bracelet",
-  "item-trinket": "Trinket"
+  "item-trinket": "Trinket",
+  "unidentified-hint": "An unidentified bauble. Research it at a Scholar's Lectern to reveal its true nature.",
+  "affix-prefix-burning": "Burning",
+  "affix-prefix-hardened": "Hardened",
+  "affix-prefix-swift": "Swift",
+  "affix-suffix-of_the_bear": "of the Bear",
+  "affix-suffix-of_swiftness": "of Swiftness",
+  "affix-suffix-of_warding": "of Warding"
 }
