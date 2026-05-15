@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="xunit" Version="2.6.6" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.6" />
   </ItemGroup>
@@ -31,6 +32,7 @@
     <Compile Include="../../src/Affix/ScrambleNameGenerator.cs" Link="Affix/ScrambleNameGenerator.cs" />
     <Compile Include="../../src/Affix/AffixPool.cs" Link="Affix/AffixPool.cs" />
     <Compile Include="../../src/Affix/BaubleRoller.cs" Link="Affix/BaubleRoller.cs" />
+    <Compile Include="../../src/Affix/AffixConfigLoader.cs" Link="Affix/AffixConfigLoader.cs" />
   </ItemGroup>
 
 </Project>
