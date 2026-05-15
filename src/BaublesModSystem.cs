@@ -36,6 +36,9 @@ public class BaublesModSystem : ModSystem
         api.RegisterItemClass("ItemBauble", typeof(ItemBauble));
         api.RegisterItemClass("ItemUnidentifiedRoller", typeof(ItemUnidentifiedRoller));
 
+        api.RegisterBlockClass("BlockScholarsLectern", typeof(Baubles.Blocks.BlockScholarsLectern));
+        api.RegisterBlockEntityClass("BEScholarsLectern", typeof(Baubles.Blocks.BEScholarsLectern));
+
         api.Logger.Notification("[Baubles] mod system starting");
     }
 

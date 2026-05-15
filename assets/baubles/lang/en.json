@@ -12,5 +12,10 @@
   "affix-prefix-swift": "Swift",
   "affix-suffix-of_the_bear": "of the Bear",
   "affix-suffix-of_swiftness": "of Swiftness",
-  "affix-suffix-of_warding": "of Warding"
+  "affix-suffix-of_warding": "of Warding",
+  "block-scholarslectern": "Scholar's Lectern",
+  "lectern-title": "Scholar's Lectern",
+  "lectern-hint-empty": "Place an unidentified bauble to research.",
+  "lectern-hint-identified": "Already identified.",
+  "lectern-hint-progress": "Deciphering…"
 }
