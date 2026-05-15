@@ -1,3 +1,5 @@
 {
-  "charactertab-baubles": "Baubles"
+  "charactertab-baubles": "Baubles",
+  "tab-title": "Baubles",
+  "tab-hint": "Hover an empty slot to see what it accepts."
 }
