@@ -19,6 +19,14 @@ public class BaublesModSystem : ModSystem
     {
         base.Start(api);
         api.RegisterEntityBehaviorClass(EntityBehaviorBaubles.Code, typeof(EntityBehaviorBaubles));
+
+        // RegisterInventoryClass is not exposed through IClassRegistryAPI in VS 1.22 —
+        // it lives on the concrete Vintagestory.Common.ClassRegistry. Without this
+        // registration the client crashes with "Don't know how to instantiate inventory
+        // of class 'baubles'" when receiving the inventory-contents packet on join.
+        (api.ClassRegistry as Vintagestory.Common.ClassRegistry)
+            ?.RegisterInventoryClass(InventoryBaubles.ClassName, typeof(InventoryBaubles));
+
         api.Logger.Notification("[Baubles] mod system starting");
     }
 
