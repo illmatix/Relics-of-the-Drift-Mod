@@ -23,6 +23,11 @@
     <Compile Include="../../src/Api/BaubleSlotType.cs" Link="Api/BaubleSlotType.cs" />
     <Compile Include="../../src/Api/BaubleInstance.cs" Link="Api/BaubleInstance.cs" />
     <Compile Include="../../src/Api/IBaubleItem.cs" Link="Api/IBaubleItem.cs" />
+    <Compile Include="../../src/Modifier/ModifierOp.cs" Link="Modifier/ModifierOp.cs" />
+    <Compile Include="../../src/Modifier/ModifierEntry.cs" Link="Modifier/ModifierEntry.cs" />
+    <Compile Include="../../src/Affix/AffixKind.cs" Link="Affix/AffixKind.cs" />
+    <Compile Include="../../src/Affix/Affix.cs" Link="Affix/Affix.cs" />
+    <Compile Include="../../src/Affix/AffixConfig.cs" Link="Affix/AffixConfig.cs" />
   </ItemGroup>
 
 </Project>
