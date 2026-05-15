@@ -47,5 +47,12 @@ public static class ScrambleNameGenerator
         return sb.ToString();
     }
 
+    // Fold a 64-bit seed into a 32-bit Random seed. The XOR fold can alias
+    // distant seeds (e.g. seed=0 and seed=-1 both fold to 0; any two seeds
+    // whose halves XOR to the same int collide). For the bauble use case,
+    // seeds are derived from entity-id + GUID hashes which are well-distributed
+    // in 64 bits, so the practical collision rate is negligible. If you change
+    // this fold, all unidentified bauble names with persisted seeds will
+    // change — that is a save-compatibility break.
     private static int SeedToInt(long seed) => (int)(seed ^ (seed >>> 32));
 }
