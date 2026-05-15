@@ -2,6 +2,7 @@ using System.Linq;
 using Baubles.Entity;
 using Baubles.Gui;
 using Baubles.Inventory;
+using Baubles.Items;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -20,6 +21,7 @@ public class BaublesModSystem : ModSystem
         base.Start(api);
         api.RegisterEntityBehaviorClass(EntityBehaviorBaubles.Code, typeof(EntityBehaviorBaubles));
         RegisterInventoryClass(api, InventoryBaubles.ClassName, typeof(InventoryBaubles));
+        api.RegisterItemClass("ItemBauble", typeof(ItemBauble));
         api.Logger.Notification("[Baubles] mod system starting");
     }
 

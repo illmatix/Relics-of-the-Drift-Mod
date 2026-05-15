@@ -1,5 +1,8 @@
 {
   "charactertab-baubles": "Baubles",
   "tab-title": "Baubles",
-  "tab-hint": "Hover an empty slot to see what it accepts."
+  "tab-hint": "Hover an empty slot to see what it accepts.",
+  "item-ring": "Ring",
+  "item-bracelet": "Bracelet",
+  "item-trinket": "Trinket"
 }

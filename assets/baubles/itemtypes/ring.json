@@ -1,0 +1,9 @@
+{
+  "code": "ring",
+  "class": "ItemBauble",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "bauble": { "slotType": "Ring" } },
+  "textures": { "all": { "base": "baubles:item/ring" } },
+  "shape": { "base": "game:item/basic/coin" }
+}

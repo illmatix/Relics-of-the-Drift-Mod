@@ -1,0 +1,9 @@
+{
+  "code": "bracelet",
+  "class": "ItemBauble",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "bauble": { "slotType": "Bracelet" } },
+  "textures": { "all": { "base": "baubles:item/bracelet" } },
+  "shape": { "base": "game:item/basic/coin" }
+}

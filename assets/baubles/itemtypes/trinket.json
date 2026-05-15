@@ -1,0 +1,9 @@
+{
+  "code": "trinket",
+  "class": "ItemBauble",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "bauble": { "slotType": "Trinket" } },
+  "textures": { "all": { "base": "baubles:item/trinket" } },
+  "shape": { "base": "game:item/basic/coin" }
+}
