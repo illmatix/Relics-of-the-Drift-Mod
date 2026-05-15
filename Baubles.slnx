@@ -1,4 +1,0 @@
-<Solution>
-  <Project Path="Baubles.csproj" />
-  <Project Path="tests/Baubles.Tests/Baubles.Tests.csproj" />
-</Solution>

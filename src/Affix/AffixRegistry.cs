@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Baubles.Api;
+using DriftRelics.Api;
 
-namespace Baubles.Affixes;
+namespace DriftRelics.Affixes;
 
 public sealed class AffixRegistry : IAffixRegistry
 {

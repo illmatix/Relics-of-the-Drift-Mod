@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Baubles.Affixes;
+namespace DriftRelics.Affixes;
 
 public sealed class AffixConfig
 {

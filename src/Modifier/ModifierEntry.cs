@@ -1,4 +1,4 @@
-namespace Baubles.Modifier;
+namespace DriftRelics.Modifier;
 
 public sealed class ModifierEntry
 {

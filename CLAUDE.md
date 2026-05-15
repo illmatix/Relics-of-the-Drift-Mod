@@ -1,4 +1,4 @@
-# Baubles Mod — Project Instructions
+# Relics of the Drift — Project Instructions
 
 ## Karpathy-Inspired Claude Code Guidelines
 
@@ -69,13 +69,13 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ---
 
 ## Build & Test
-- **Build:** `dotnet build` (auto-deploys DLL + assets to `~/.config/VintagestoryData/Mods/Baubles/`)
+- **Build:** `dotnet build DriftRelics.csproj` (auto-deploys DLL + assets to `~/.config/VintagestoryData/Mods/DriftRelics/`)
 - **Quick test:** Drop folder with `.cs` files into `Mods/` — Vintage Story compiles at runtime
 - **SDK:** .NET 10, pinned via `global.json`. Use the system `dotnet` directly (no DOTNET_ROOT prefix).
 
 ## Project Structure
 - `src/` — C# source files
-- `assets/baubles/` — Item/block types, recipes, shapes, lang, affix config
+- `assets/driftrelics/` — Item/block types, recipes, shapes, lang, affix config
 - `docs/` — Detailed reference documentation
 - `docs/superpowers/specs/` — Design specs (do not delete or reformat without owner approval)
 - `.run/` — Rider run configs (gitignored)
@@ -85,11 +85,12 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Conventions
 - Target Vintage Story 1.20.x+
-- Bauble affixes stored as tree attributes on itemstack (per-stack, not per-itemtype)
-- Bauble inventory accessed via `EntityBehaviorBaubles.Inventory` on `EntityPlayer` — never look it up by index in the player's inventory list
+- Relic affixes stored as tree attributes on itemstack (per-stack, not per-itemtype)
+- Relic inventory accessed via `EntityBehaviorRelics.Inventory` on `EntityPlayer` — never look it up by index in the player's inventory list
 - `EntityPlayer.Player` can be null; always fallback to `World.PlayerByUid()`
-- Scrambled item names must be deterministic from `stack.Attributes.GetLong("baubleSeed")` — same seed → same gibberish across save/load and across clients
-- Inventory class name `"baubles"` is reserved by this mod — document it in any compat guide
+- Scrambled item names must be deterministic from `stack.Attributes.GetLong("relic.seed")` — same seed → same gibberish across save/load and across clients
+- Inventory class name `"driftrelics"` is reserved by this mod — document it in any compat guide
+- Mod ID: `driftrelics` — asset domain, lang key prefix, entity behavior code
 
 ## Reference Material
 - Decompiled VS sources live on `macgyver:~/workspace/vs-api-reference/` — grep these when looking up API surface (`GuiDialogCharacterBase`, `InventoryBasePlayer`, `EntityBehaviorSeraphInventory`, etc.).

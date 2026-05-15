@@ -1,0 +1,9 @@
+{
+  "code": "trinket",
+  "class": "ItemRelic",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "relic": { "slotType": "Trinket" } },
+  "textures": { "all": { "base": "driftrelics:item/trinket" } },
+  "shape": { "base": "game:item/basic/coin" }
+}

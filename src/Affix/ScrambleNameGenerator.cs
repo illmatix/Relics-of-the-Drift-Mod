@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace Baubles.Affixes;
+namespace DriftRelics.Affixes;
 
 public static class ScrambleNameGenerator
 {

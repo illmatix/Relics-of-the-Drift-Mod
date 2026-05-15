@@ -1,7 +1,7 @@
-using Baubles.Modifier;
+using DriftRelics.Modifier;
 using Vintagestory.API.Common;
 
-namespace Baubles.Api;
+namespace DriftRelics.Api;
 
 public delegate void ModifierApplyDelegate(EntityPlayer player, double value, ModifierOp op, string code, bool apply);
 

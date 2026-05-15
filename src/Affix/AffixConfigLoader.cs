@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
-namespace Baubles.Affixes;
+namespace DriftRelics.Affixes;
 
 public static class AffixConfigLoader
 {

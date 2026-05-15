@@ -1,4 +1,4 @@
-namespace Baubles.Affixes;
+namespace DriftRelics.Affixes;
 
 public enum AffixKind
 {

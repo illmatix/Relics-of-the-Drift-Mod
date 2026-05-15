@@ -1,0 +1,14 @@
+{
+  "code": "scholarslectern",
+  "class": "BlockScholarsLectern",
+  "entityClass": "BEScholarsLectern",
+  "shape": { "base": "game:block/basic/cube" },
+  "textures": { "all": { "base": "driftrelics:block/scholarslectern" } },
+  "creativeinventory": { "general": ["*"], "decorative": ["*"] },
+  "blockmaterial": "Wood",
+  "drawtype": "Cube",
+  "sidesolid": { "all": true },
+  "sidesopaque": { "all": true },
+  "resistance": 3.5,
+  "sounds": { "place": "game:block/planks", "break": "game:block/planks" }
+}

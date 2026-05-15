@@ -1,9 +1,9 @@
 using System;
-using Baubles.Api;
+using DriftRelics.Api;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 
-namespace Baubles.Items;
+namespace DriftRelics.Items;
 
 public class ItemUnidentifiedRoller : Item
 {
@@ -21,14 +21,14 @@ public class ItemUnidentifiedRoller : Item
         if (player == null) { handling = EnumHandHandling.NotHandled; return; }
 
         var stack = slot.Itemstack;
-        var current = (BaubleSlotType)(stack.Attributes.GetInt("rollerSlotType", 0));
-        var next = (BaubleSlotType)(((int)current + 1) % 3);
+        var current = (RelicSlotType)(stack.Attributes.GetInt("rollerSlotType", 0));
+        var next = (RelicSlotType)(((int)current + 1) % 3);
         stack.Attributes.SetInt("rollerSlotType", (int)next);
         slot.MarkDirty();
 
-        var modSystem = api.ModLoader.GetModSystem<BaublesModSystem>();
+        var modSystem = api.ModLoader.GetModSystem<DriftRelicsModSystem>();
         var seed = (long)Guid.NewGuid().GetHashCode() ^ ((long)player.Entity.EntityId << 32);
-        var rolled = modSystem.Api.RollUnidentifiedBauble(current, seed);
+        var rolled = modSystem.Api.RollUnidentifiedRelic(current, seed);
         if (rolled != null)
         {
             if (!player.InventoryManager.TryGiveItemstack(rolled, true))

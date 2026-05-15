@@ -1,6 +1,6 @@
-using Baubles.Affixes;
+using DriftRelics.Affixes;
 
-namespace Baubles.Api;
+namespace DriftRelics.Api;
 
 public interface IAffixRegistry
 {

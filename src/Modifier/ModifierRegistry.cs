@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using Baubles.Api;
+using DriftRelics.Api;
 using Vintagestory.API.Common;
 
-namespace Baubles.Modifier;
+namespace DriftRelics.Modifier;
 
 public sealed class ModifierRegistry : IModifierRegistry
 {

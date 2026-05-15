@@ -1,39 +1,41 @@
-# Baubles Mod for Vintage Story
+# Relics of the Drift — Vintage Story Mod
 
 Accessory slots for the character screen, randomly-rolled affix names, and a research lectern for identification.
+
+**Mod ID:** `driftrelics`
 
 ## Features (0.1.0)
 
 - **4 new accessory slots** on the character screen — Ring × 2, Bracelet, Trinket.
 - **Affix-based naming** — Prefix + Base + Suffix (e.g. *Burning Ring of Swiftness*) driven by a JSON-defined pool.
-- **Unidentified state** — fresh baubles show a deterministic scrambled name and grant no modifiers until studied.
-- **Scholar's Lectern** — a workstation block that identifies a single bauble over 60 seconds.
+- **Unidentified state** — fresh relics show a deterministic scrambled name and grant no modifiers until studied.
+- **Scholar's Lectern** — a workstation block that identifies a single relic over 60 seconds.
 - **Modifier framework** — affixes carry stat modifiers (move speed, max health, melee damage, etc.) that apply on equip and remove on unequip.
 - **Public API** — other mods can register affixes, modifier handlers, or react to equip/unequip events.
 
 ## Installation
 
-Drop the `Baubles` folder into your `VintagestoryData/Mods/` directory.
+Drop the `DriftRelics` folder into your `VintagestoryData/Mods/` directory.
 
 ## Configuration
 
-- `assets/baubles/config/affixes.json` — affix pool. Edit to add/remove prefixes and suffixes, change weights, or rebalance modifier values.
-- `assets/baubles/config/lectern.json` — research duration in seconds (default 60).
+- `assets/driftrelics/config/affixes.json` — affix pool. Edit to add/remove prefixes and suffixes, change weights, or rebalance modifier values.
+- `assets/driftrelics/config/lectern.json` — research duration in seconds (default 60).
 
 ## API for other mods
 
 ```csharp
-var baubles = api.ModLoader.GetModSystem<Baubles.BaublesModSystem>().Api;
+var relics = api.ModLoader.GetModSystem<DriftRelics.DriftRelicsModSystem>().Api;
 
-baubles.OnBaubleEquipped   += (player, stack, slot) => { /* ... */ };
-baubles.OnBaubleUnequipped += (player, stack, slot) => { /* ... */ };
-baubles.OnBaubleIdentified += (player, stack)       => { /* ... */ };
+relics.OnRelicEquipped   += (player, stack, slot) => { /* ... */ };
+relics.OnRelicUnequipped += (player, stack, slot) => { /* ... */ };
+relics.OnRelicIdentified += (player, stack)       => { /* ... */ };
 
-baubles.Affixes.Register(new Baubles.Affixes.Affix { /* ... */ });
-baubles.Modifiers.Register("myKey", (player, value, op, code, apply) => { /* ... */ });
+relics.Affixes.Register(new DriftRelics.Affixes.Affix { /* ... */ });
+relics.Modifiers.Register("myKey", (player, value, op, code, apply) => { /* ... */ });
 ```
 
-Note: the affix namespace is `Baubles.Affixes` (plural) — collides with the `Affix` class otherwise.
+Note: the affix namespace is `DriftRelics.Affixes` (plural) — collides with the `Affix` class otherwise.
 
 ## Compatibility
 
@@ -47,20 +49,20 @@ Note: the affix namespace is `Baubles.Affixes` (plural) — collides with the `A
 ## Final manual checklist before tagging 0.1.0
 
 Singleplayer:
-- [ ] Baubles tab visible alongside Character and Traits.
+- [ ] Relics tab visible alongside Character and Traits.
 - [ ] Slot type enforcement: ring rejects bracelet, etc.
 - [ ] Persistence across save/load with same prefix/suffix/identified state.
 - [ ] Scrambled name is deterministic by seed (re-roll same seed → same name).
-- [ ] Identified bauble shows "[Prefix] [Base] [of Suffix]" with localised affix names.
-- [ ] Equip an identified bauble → `EntityPlayer.Stats` shows the expected modifier code.
+- [ ] Identified relic shows "[Prefix] [Base] [of Suffix]" with localised affix names.
+- [ ] Equip an identified relic → `EntityPlayer.Stats` shows the expected modifier code.
 - [ ] Unequip → modifier disappears.
-- [ ] Lectern: place unidentified bauble → wait 60s → identified, name resolves.
-- [ ] Lectern: already-identified bauble passes through without progress.
+- [ ] Lectern: place unidentified relic → wait 60s → identified, name resolves.
+- [ ] Lectern: already-identified relic passes through without progress.
 - [ ] Save during research → progress persists across reload.
 
 Multiplayer (host + one client):
-- [ ] Each player has their own bauble inventory; reconnects preserve state.
-- [ ] Client cannot interact with host's bauble inventory.
+- [ ] Each player has their own relic inventory; reconnects preserve state.
+- [ ] Client cannot interact with host's relic inventory.
 - [ ] Both players see the same scrambled name for the same stack.
 - [ ] Identifying on the server flips the client tooltip without reconnect.
 
@@ -71,5 +73,5 @@ Multiplayer (host + one client):
 - Bespoke Scholar's Lectern dialog with a progress bar (v1 uses the default container UI).
 - Affix rarity tiers (magic / rare / legendary).
 - Re-rolling, socketing, transmutation.
-- Player-model rendering of equipped baubles.
+- Player-model rendering of equipped relics.
 - ConfigLib integration for in-game affix editing.

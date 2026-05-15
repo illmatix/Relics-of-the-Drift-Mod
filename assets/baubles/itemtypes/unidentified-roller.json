@@ -1,8 +1,0 @@
-{
-  "code": "unidentified-roller",
-  "class": "ItemUnidentifiedRoller",
-  "maxstacksize": 1,
-  "creativeinventory": { "general": ["*"], "items": ["*"] },
-  "textures": { "all": { "base": "baubles:item/unidentified-roller" } },
-  "shape": { "base": "game:item/basic/coin" }
-}

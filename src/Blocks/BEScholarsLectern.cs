@@ -1,10 +1,10 @@
-using Baubles.Api;
+using DriftRelics.Api;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 
-namespace Baubles.Blocks;
+namespace DriftRelics.Blocks;
 
 public class BEScholarsLectern : BlockEntityOpenableContainer
 {
@@ -12,7 +12,7 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
 
     public InventoryGeneric InventoryRef { get; private set; } = null!;
     public override InventoryBase Inventory => InventoryRef;
-    public override string InventoryClassName => "baubles-lectern";
+    public override string InventoryClassName => "driftrelics-lectern";
 
     public float ResearchProgressSeconds { get; private set; }
     public float ResearchDurationSeconds { get; private set; } = 60f;
@@ -25,9 +25,9 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
     public override void Initialize(ICoreAPI api)
     {
         base.Initialize(api);
-        InventoryRef.LateInitialize($"baubles-lectern-{Pos.X}/{Pos.Y}/{Pos.Z}", api);
+        InventoryRef.LateInitialize($"driftrelics-lectern-{Pos.X}/{Pos.Y}/{Pos.Z}", api);
 
-        var cfgAsset = api.Assets.TryGet(new AssetLocation("baubles", "config/lectern.json"));
+        var cfgAsset = api.Assets.TryGet(new AssetLocation("driftrelics", "config/lectern.json"));
         if (cfgAsset != null)
         {
             var cfg = Newtonsoft.Json.JsonConvert.DeserializeObject<LecternConfig>(cfgAsset.ToText());
@@ -42,13 +42,13 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
         var slot = InventoryRef[0];
         var stack = slot.Itemstack;
         if (stack == null) { Reset(); return; }
-        if (!BaublesUtil.IsBauble(stack)) { Reset(); return; }
-        if (BaublesUtil.IsIdentified(stack)) { Reset(); return; }
+        if (!RelicsUtil.IsRelic(stack)) { Reset(); return; }
+        if (RelicsUtil.IsIdentified(stack)) { Reset(); return; }
 
         ResearchProgressSeconds += dt;
         if (ResearchProgressSeconds >= ResearchDurationSeconds)
         {
-            var modSystem = Api.ModLoader.GetModSystem<BaublesModSystem>();
+            var modSystem = Api.ModLoader.GetModSystem<DriftRelicsModSystem>();
             modSystem.Api.Identify(stack);
             slot.MarkDirty();
             MarkDirty(true);

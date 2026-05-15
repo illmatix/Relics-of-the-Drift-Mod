@@ -1,7 +1,7 @@
 using Vintagestory.API.Common;
 using Vintagestory.API.MathTools;
 
-namespace Baubles.Blocks;
+namespace DriftRelics.Blocks;
 
 public class BlockScholarsLectern : Block
 {
