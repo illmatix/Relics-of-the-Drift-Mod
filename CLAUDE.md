@@ -71,7 +71,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 ## Build & Test
 - **Build:** `dotnet build` (auto-deploys DLL + assets to `~/.config/VintagestoryData/Mods/Baubles/`)
 - **Quick test:** Drop folder with `.cs` files into `Mods/` — Vintage Story compiles at runtime
-- **SDK:** .NET 8.0, pinned via `global.json`
+- **SDK:** .NET 10, pinned via `global.json`. Use the system `dotnet` directly (no DOTNET_ROOT prefix).
 
 ## Project Structure
 - `src/` — C# source files
