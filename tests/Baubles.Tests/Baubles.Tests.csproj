@@ -29,6 +29,8 @@
     <Compile Include="../../src/Affix/Affix.cs" Link="Affix/Affix.cs" />
     <Compile Include="../../src/Affix/AffixConfig.cs" Link="Affix/AffixConfig.cs" />
     <Compile Include="../../src/Affix/ScrambleNameGenerator.cs" Link="Affix/ScrambleNameGenerator.cs" />
+    <Compile Include="../../src/Affix/AffixPool.cs" Link="Affix/AffixPool.cs" />
+    <Compile Include="../../src/Affix/BaubleRoller.cs" Link="Affix/BaubleRoller.cs" />
   </ItemGroup>
 
 </Project>
