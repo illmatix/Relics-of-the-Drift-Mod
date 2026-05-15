@@ -34,6 +34,7 @@ public class BaublesModSystem : ModSystem
         api.RegisterEntityBehaviorClass(EntityBehaviorBaubles.Code, typeof(EntityBehaviorBaubles));
         RegisterInventoryClass(api, InventoryBaubles.ClassName, typeof(InventoryBaubles));
         api.RegisterItemClass("ItemBauble", typeof(ItemBauble));
+        api.RegisterItemClass("ItemUnidentifiedRoller", typeof(ItemUnidentifiedRoller));
 
         api.Logger.Notification("[Baubles] mod system starting");
     }
