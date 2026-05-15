@@ -39,6 +39,24 @@ public class BaublesModSystem : ModSystem
         api.Logger.Notification("[Baubles] mod system starting");
     }
 
+    public override void AssetsFinalize(ICoreAPI api)
+    {
+        base.AssetsFinalize(api);
+        var asset = api.Assets.TryGet(new AssetLocation("baubles", "config/affixes.json"));
+        if (asset == null)
+        {
+            api.Logger.Warning("[Baubles] affixes.json not found — no affixes will roll");
+            return;
+        }
+        var json = asset.ToText();
+        var cfg = Baubles.Affixes.AffixConfigLoader.LoadFromJson(json);
+        Affixes.RollChances = cfg.RollChances;
+        foreach (var a in cfg.Prefixes) Affixes.Register(a);
+        foreach (var a in cfg.Suffixes) Affixes.Register(a);
+        api.Logger.Notification(
+            $"[Baubles] loaded {cfg.Prefixes.Count} prefixes, {cfg.Suffixes.Count} suffixes");
+    }
+
     public override void StartClientSide(ICoreClientAPI capi)
     {
         this.capi = capi;
