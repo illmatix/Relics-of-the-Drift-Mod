@@ -55,6 +55,23 @@ public class EntityBehaviorBaubles : EntityBehavior
         base.Initialize(properties, attributes);
     }
 
+    public override void OnEntityDespawn(EntityDespawnData despawn)
+    {
+        if (entity.World?.Side == EnumAppSide.Server)
+        {
+            for (int i = 0; i < Inventory.Count; i++)
+            {
+                var stack = Inventory[i].Itemstack;
+                if (stack != null && BaublesUtil.IsIdentified(stack))
+                {
+                    RemoveMods(stack);
+                }
+            }
+        }
+        Inventory.SlotChanged = null;
+        base.OnEntityDespawn(despawn);
+    }
+
     private void OnSlotChanged(int index, ItemStack? oldStack, ItemStack? newStack)
     {
         if (entity.World.Side != EnumAppSide.Server) return;
