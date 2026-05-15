@@ -54,10 +54,10 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
             MarkDirty(true);
             ResearchProgressSeconds = 0;
         }
-        else
-        {
-            MarkDirty(true);
-        }
+        // No per-tick MarkDirty during in-progress ticks — there is no client-side
+        // progress UI yet to consume the value, and pushing a BE update every 250ms
+        // is 240 packets per research per nearby client. Add the per-tick sync back
+        // when a progress dialog lands (deferred to v1.1).
     }
 
     private void Reset()
