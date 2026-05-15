@@ -11,6 +11,9 @@ public class InventoryBaubles : InventoryBasePlayer
 
     private readonly ItemSlot[] slots;
 
+    public System.Action<int, ItemStack?, ItemStack?>? SlotChanged;
+    private readonly ItemStack?[] previousStacks = new ItemStack?[Size];
+
     public override int Count => slots.Length;
     public override ItemSlot this[int slotId]
     {
@@ -45,6 +48,10 @@ public class InventoryBaubles : InventoryBasePlayer
         var dirty = new System.Collections.Generic.List<ItemSlot>();
         SlotsFromTreeAttributes(tree, slots, dirty);
         for (int i = 0; i < dirty.Count; i++) DidModifyItemSlot(dirty[i], null);
+        for (int i = 0; i < slots.Length; i++)
+        {
+            previousStacks[i] = slots[i].Itemstack?.Clone();
+        }
     }
 
     public override void ToTreeAttributes(ITreeAttribute tree)
@@ -61,5 +68,18 @@ public class InventoryBaubles : InventoryBasePlayer
                 2      => BaubleSlotType.Bracelet,
                 _      => BaubleSlotType.Trinket
             });
+    }
+
+    public override void OnItemSlotModified(ItemSlot slot)
+    {
+        int idx = System.Array.IndexOf(slots, slot);
+        if (idx >= 0)
+        {
+            var oldStack = previousStacks[idx];
+            var newStack = slot.Itemstack;
+            previousStacks[idx] = newStack?.Clone();
+            SlotChanged?.Invoke(idx, oldStack, newStack);
+        }
+        base.OnItemSlotModified(slot);
     }
 }
