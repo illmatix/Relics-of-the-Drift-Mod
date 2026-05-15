@@ -20,7 +20,9 @@
     to src/, add it to this Compile Include list.
   -->
   <ItemGroup>
-    <!-- Populated by subsequent tasks -->
+    <Compile Include="../../src/Api/BaubleSlotType.cs" Link="Api/BaubleSlotType.cs" />
+    <Compile Include="../../src/Api/BaubleInstance.cs" Link="Api/BaubleInstance.cs" />
+    <Compile Include="../../src/Api/IBaubleItem.cs" Link="Api/IBaubleItem.cs" />
   </ItemGroup>
 
 </Project>
