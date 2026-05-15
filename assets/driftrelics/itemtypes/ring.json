@@ -1,0 +1,9 @@
+{
+  "code": "ring",
+  "class": "ItemRelic",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "relic": { "slotType": "Ring" } },
+  "textures": { "all": { "base": "driftrelics:item/ring" } },
+  "shape": { "base": "game:item/basic/coin" }
+}

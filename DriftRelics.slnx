@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="DriftRelics.csproj" />
+  <Project Path="tests/DriftRelics.Tests/DriftRelics.Tests.csproj" />
+</Solution>

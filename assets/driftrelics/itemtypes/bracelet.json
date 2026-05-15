@@ -1,0 +1,9 @@
+{
+  "code": "bracelet",
+  "class": "ItemRelic",
+  "maxstacksize": 1,
+  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "attributes": { "relic": { "slotType": "Bracelet" } },
+  "textures": { "all": { "base": "driftrelics:item/bracelet" } },
+  "shape": { "base": "game:item/basic/coin" }
+}

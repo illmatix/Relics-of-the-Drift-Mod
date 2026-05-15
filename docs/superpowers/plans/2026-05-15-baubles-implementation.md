@@ -1,3 +1,5 @@
+> **Note (2026-05-15):** Mod renamed from "Baubles" to "Relics of the Drift" (modid `driftrelics`). Original doc references "Baubles" throughout; treat those as historical.
+
 # Baubles Mod Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.

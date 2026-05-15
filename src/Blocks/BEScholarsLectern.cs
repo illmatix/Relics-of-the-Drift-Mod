@@ -1,0 +1,105 @@
+using DriftRelics.Api;
+using Vintagestory.API.Common;
+using Vintagestory.API.Datastructures;
+using Vintagestory.API.Server;
+using Vintagestory.GameContent;
+
+namespace DriftRelics.Blocks;
+
+public class BEScholarsLectern : BlockEntityOpenableContainer
+{
+    private const int TickMs = 250;
+
+    public InventoryGeneric InventoryRef { get; private set; } = null!;
+    public override InventoryBase Inventory => InventoryRef;
+    public override string InventoryClassName => "driftrelics-lectern";
+
+    public float ResearchProgressSeconds { get; private set; }
+    public float ResearchDurationSeconds { get; private set; } = 60f;
+
+    public BEScholarsLectern()
+    {
+        InventoryRef = new InventoryGeneric(1, null, null);
+    }
+
+    public override void Initialize(ICoreAPI api)
+    {
+        base.Initialize(api);
+        InventoryRef.LateInitialize($"driftrelics-lectern-{Pos.X}/{Pos.Y}/{Pos.Z}", api);
+
+        var cfgAsset = api.Assets.TryGet(new AssetLocation("driftrelics", "config/lectern.json"));
+        if (cfgAsset != null)
+        {
+            var cfg = Newtonsoft.Json.JsonConvert.DeserializeObject<LecternConfig>(cfgAsset.ToText());
+            if (cfg != null) ResearchDurationSeconds = cfg.ResearchDurationSeconds;
+        }
+
+        if (api.Side == EnumAppSide.Server) RegisterGameTickListener(ResearchTick, TickMs);
+    }
+
+    private void ResearchTick(float dt)
+    {
+        var slot = InventoryRef[0];
+        var stack = slot.Itemstack;
+        if (stack == null) { Reset(); return; }
+        if (!RelicsUtil.IsRelic(stack)) { Reset(); return; }
+        if (RelicsUtil.IsIdentified(stack)) { Reset(); return; }
+
+        ResearchProgressSeconds += dt;
+        if (ResearchProgressSeconds >= ResearchDurationSeconds)
+        {
+            var modSystem = Api.ModLoader.GetModSystem<DriftRelicsModSystem>();
+            modSystem.Api.Identify(stack);
+            slot.MarkDirty();
+            MarkDirty(true);
+            ResearchProgressSeconds = 0;
+        }
+        // No per-tick MarkDirty during in-progress ticks — there is no client-side
+        // progress UI yet to consume the value, and pushing a BE update every 250ms
+        // is 240 packets per research per nearby client. Add the per-tick sync back
+        // when a progress dialog lands (deferred to v1.1).
+    }
+
+    private void Reset()
+    {
+        if (ResearchProgressSeconds != 0)
+        {
+            ResearchProgressSeconds = 0;
+            MarkDirty(true);
+        }
+    }
+
+    public override bool OnPlayerRightClick(IPlayer byPlayer, BlockSelection blockSel)
+    {
+        if (byPlayer is IServerPlayer sp)
+        {
+            sp.InventoryManager.OpenInventory(InventoryRef);
+            return true;
+        }
+        return false;
+    }
+
+    public void OnPlayerInteract(IPlayer byPlayer)
+    {
+        OnPlayerRightClick(byPlayer, null!);
+    }
+
+    public override void ToTreeAttributes(ITreeAttribute tree)
+    {
+        base.ToTreeAttributes(tree);
+        var invTree = new TreeAttribute();
+        InventoryRef.ToTreeAttributes(invTree);
+        tree["inventory"] = invTree;
+        tree.SetFloat("researchProgress", ResearchProgressSeconds);
+    }
+
+    public override void FromTreeAttributes(ITreeAttribute tree, IWorldAccessor worldForResolving)
+    {
+        base.FromTreeAttributes(tree, worldForResolving);
+        var invTree = tree.GetTreeAttribute("inventory");
+        if (invTree != null) InventoryRef.FromTreeAttributes(invTree);
+        ResearchProgressSeconds = tree.GetFloat("researchProgress", 0);
+    }
+
+    private sealed class LecternConfig { public float ResearchDurationSeconds { get; set; } = 60f; }
+}

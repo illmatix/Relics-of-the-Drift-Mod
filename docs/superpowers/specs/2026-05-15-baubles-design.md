@@ -1,3 +1,5 @@
+> **Note (2026-05-15):** Mod renamed from "Baubles" to "Relics of the Drift" (modid `driftrelics`). Original doc references "Baubles" throughout; treat those as historical.
+
 # Baubles Mod for Vintage Story — Design
 
 **Date:** 2026-05-15
