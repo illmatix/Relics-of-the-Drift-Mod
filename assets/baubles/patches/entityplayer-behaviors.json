@@ -1,24 +1,12 @@
 [
   {
-    "file": "game:entities/humanoid/seraph-male.json",
+    "file": "game:entities/humanoid/player.json",
     "op": "add",
     "path": "/server/behaviors/-",
     "value": { "code": "baubles" }
   },
   {
-    "file": "game:entities/humanoid/seraph-male.json",
-    "op": "add",
-    "path": "/client/behaviors/-",
-    "value": { "code": "baubles" }
-  },
-  {
-    "file": "game:entities/humanoid/seraph-female.json",
-    "op": "add",
-    "path": "/server/behaviors/-",
-    "value": { "code": "baubles" }
-  },
-  {
-    "file": "game:entities/humanoid/seraph-female.json",
+    "file": "game:entities/humanoid/player.json",
     "op": "add",
     "path": "/client/behaviors/-",
     "value": { "code": "baubles" }
