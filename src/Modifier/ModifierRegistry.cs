@@ -8,14 +8,18 @@ public sealed class ModifierRegistry : IModifierRegistry
 {
     private readonly Dictionary<string, ModifierApplyDelegate> handlers = new();
 
+    // api is reserved for future use (e.g. world-aware handlers in Task 15+);
+    // currently the canonical handlers go straight through EntityPlayer.Stats.
     public ModifierRegistry(ICoreAPI api)
     {
+        _ = api;
         // v1 canonical keys → EntityPlayer.Stats
         Register("moveSpeed",          MakeStatHandler("walkspeed"));
         Register("maxHealth",          MakeStatHandler("maxhealth"));
         Register("meleeDamage",        MakeStatHandler("meleeWeaponsDamage"));
         Register("rangedDamage",       MakeStatHandler("rangedWeaponsDamage"));
         Register("hungerRate",         MakeStatHandler("hungerrate"));
+        // coldResist / heatResist bias the body-temperature comfort band.
         Register("coldResist",         MakeStatHandler("bodyTempHotMin"));
         Register("heatResist",         MakeStatHandler("bodyTempHotMax"));
         Register("rangedDamageResist", MakeStatHandler("rangedWeaponsDamageReceived"));

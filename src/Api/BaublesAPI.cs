@@ -40,7 +40,7 @@ public sealed class BaublesAPI : IBaublesAPI
         if (item == null) return null;
 
         var stack = new ItemStack(item);
-        var pool = ((AffixRegistry)Affixes).BuildPool();
+        var pool = Affixes.BuildPool();
         var instance = BaubleRoller.Roll(slotType, seed, pool);
         BaublesUtil.WriteInstance(stack, instance);
         return stack;
