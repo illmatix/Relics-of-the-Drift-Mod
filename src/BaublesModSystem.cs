@@ -19,15 +19,35 @@ public class BaublesModSystem : ModSystem
     {
         base.Start(api);
         api.RegisterEntityBehaviorClass(EntityBehaviorBaubles.Code, typeof(EntityBehaviorBaubles));
-
-        // RegisterInventoryClass is not exposed through IClassRegistryAPI in VS 1.22 —
-        // it lives on the concrete Vintagestory.Common.ClassRegistry. Without this
-        // registration the client crashes with "Don't know how to instantiate inventory
-        // of class 'baubles'" when receiving the inventory-contents packet on join.
-        (api.ClassRegistry as Vintagestory.Common.ClassRegistry)
-            ?.RegisterInventoryClass(InventoryBaubles.ClassName, typeof(InventoryBaubles));
-
+        RegisterInventoryClass(api, InventoryBaubles.ClassName, typeof(InventoryBaubles));
         api.Logger.Notification("[Baubles] mod system starting");
+    }
+
+    // RegisterInventoryClass is not exposed through IClassRegistryAPI in VS 1.22.
+    // api.ClassRegistry's runtime type is Vintagestory.Common.ClassRegistryAPI, which
+    // holds an internal `registry` field of type Vintagestory.Common.ClassRegistry —
+    // that's the class with the RegisterInventoryClass(string, Type) method.
+    // Without this call the client crashes with "Don't know how to instantiate
+    // inventory of class 'baubles'" when receiving the inventory-contents packet.
+    private static void RegisterInventoryClass(ICoreAPI api, string className, System.Type type)
+    {
+        var apiObj = api.ClassRegistry;
+        var field = apiObj.GetType().GetField("registry",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        var inner = field?.GetValue(apiObj);
+        if (inner == null)
+        {
+            api.Logger.Error("[Baubles] could not reach internal ClassRegistry; inventory class '{0}' not registered", className);
+            return;
+        }
+        var method = inner.GetType().GetMethod("RegisterInventoryClass",
+            new[] { typeof(string), typeof(System.Type) });
+        if (method == null)
+        {
+            api.Logger.Error("[Baubles] RegisterInventoryClass method missing on {0}", inner.GetType().FullName);
+            return;
+        }
+        method.Invoke(inner, new object[] { className, type });
     }
 
     public override void StartClientSide(ICoreClientAPI capi)
