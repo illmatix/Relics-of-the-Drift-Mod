@@ -26,9 +26,21 @@ public class ItemRelic : Item, IRelicItem
                                          IWorldAccessor world, bool withDebugInfo)
     {
         var stack = inSlot.Itemstack;
-        if (RelicsUtil.IsRelic(stack) && !RelicsUtil.IsIdentified(stack))
+        if (RelicsUtil.IsRelic(stack))
         {
-            dsc.AppendLine(Lang.Get("driftrelics:unidentified-hint"));
+            if (!RelicsUtil.IsIdentified(stack))
+            {
+                dsc.AppendLine(Lang.Get("driftrelics:unidentified-hint"));
+            }
+            else
+            {
+                var modSystem = api.ModLoader.GetModSystem<DriftRelicsModSystem>();
+                var colored = RelicsDisplay.GetDisplayNameColored(stack, base.GetHeldItemName(stack),
+                                                                  modSystem.Api.Tiers);
+                dsc.AppendLine(colored);
+                var tierName = Lang.Get("driftrelics:tier-" + RelicsUtil.GetTier(stack));
+                dsc.AppendLine(Lang.Get("driftrelics:tier-line", tierName));
+            }
         }
         base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
     }
