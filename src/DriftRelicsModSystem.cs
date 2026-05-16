@@ -58,7 +58,7 @@ public class DriftRelicsModSystem : ModSystem
         foreach (var a in cfg.Prefixes) Affixes.Register(a);
         foreach (var a in cfg.Suffixes) Affixes.Register(a);
         api.Logger.Notification(
-            $"[DriftRelics] loaded {cfg.Tiers.Count} tiers, {cfg.Prefixes.Count} prefixes, {cfg.Suffixes.Count} suffixes");
+            $"[DriftRelics] loaded {cfg.Tiers.Count} tiers, {cfg.Signatures.Count} signatures, {cfg.Prefixes.Count} prefixes, {cfg.Suffixes.Count} suffixes");
     }
 
     public override void StartClientSide(ICoreClientAPI capi)

@@ -1,26 +1,45 @@
 {
-  "rollChances": { "prefix": 0.75, "suffix": 0.75 },
+  "tiers": [
+    { "code": "mundane",       "weight": 50, "color": "#aaaaaa", "affixCount": 1, "valueScale": 1.0 },
+    { "code": "curious",       "weight": 30, "color": "#5b9aff", "affixCount": 2, "valueScale": 1.0 },
+    { "code": "notable",       "weight": 15, "color": "#ffcc44", "affixCount": 2, "valueScale": 1.3 },
+    { "code": "drift-touched", "weight":  5, "color": "#a855f7", "affixCount": 2, "valueScale": 1.6, "signature": true }
+  ],
+  "signatures": {
+    "ring":     { "code": "drift_mark",        "langKey": "driftrelics:signature-drift_mark",
+                  "mods": [{ "key": "meleeDamage", "value": 0.10, "op": "Mul" }] },
+    "bracelet": { "code": "deep_vigor",        "langKey": "driftrelics:signature-deep_vigor",
+                  "mods": [{ "key": "maxHealth",   "value": 8 }] },
+    "trinket":  { "code": "whispered_insight", "langKey": "driftrelics:signature-whispered_insight",
+                  "mods": [{ "key": "rangedDamageResist", "value": 0.08, "op": "Mul" }] }
+  },
   "prefixes": [
     { "code": "burning",  "langKey": "driftrelics:affix-prefix-burning",  "weight": 10,
       "mods": [
-        { "key": "heatResist",   "value": 2 },
-        { "key": "meleeDamage",  "value": 0.05, "op": "Mul" }
+        { "key": "heatResist",  "value": 2 },
+        { "key": "meleeDamage", "value": 0.05, "op": "Mul" }
       ]},
     { "code": "hardened", "langKey": "driftrelics:affix-prefix-hardened", "weight": 10,
-      "mods": [
-        { "key": "maxHealth", "value": 2 }
-      ]},
+      "mods": [ { "key": "maxHealth", "value": 2 } ]},
     { "code": "swift",    "langKey": "driftrelics:affix-prefix-swift",    "weight": 10,
-      "mods": [
-        { "key": "moveSpeed", "value": 0.03, "op": "Mul" }
-      ]}
+      "mods": [ { "key": "moveSpeed", "value": 0.03, "op": "Mul" } ]},
+    { "code": "dappled",      "langKey": "driftrelics:affix-prefix-dappled",      "weight": 6, "minTier": "curious",
+      "mods": [ { "key": "rangedAccuracy", "value": 0.03, "op": "Mul" } ]},
+    { "code": "ancient",      "langKey": "driftrelics:affix-prefix-ancient",      "weight": 4, "minTier": "notable",
+      "mods": [ { "key": "maxHealth", "value": 3 }, { "key": "rangedDamageResist", "value": 0.03, "op": "Mul" } ]},
+    { "code": "drift_marked", "langKey": "driftrelics:affix-prefix-drift_marked", "weight": 3, "minTier": "drift-touched",
+      "mods": [ { "key": "meleeDamage", "value": 0.08, "op": "Mul" }, { "key": "rangedDamage", "value": 0.08, "op": "Mul" } ]}
   ],
   "suffixes": [
-    { "code": "of_the_bear",  "langKey": "driftrelics:affix-suffix-of_the_bear",  "weight": 5,
+    { "code": "of_the_bear",   "langKey": "driftrelics:affix-suffix-of_the_bear",   "weight": 5,
       "mods": [ { "key": "maxHealth", "value": 4 } ]},
-    { "code": "of_swiftness", "langKey": "driftrelics:affix-suffix-of_swiftness", "weight": 10,
+    { "code": "of_swiftness",  "langKey": "driftrelics:affix-suffix-of_swiftness",  "weight": 10,
       "mods": [ { "key": "moveSpeed", "value": 0.05, "op": "Mul" } ]},
-    { "code": "of_warding",   "langKey": "driftrelics:affix-suffix-of_warding",   "weight": 8,
-      "mods": [ { "key": "rangedDamageResist", "value": 0.04, "op": "Mul" } ]}
+    { "code": "of_warding",    "langKey": "driftrelics:affix-suffix-of_warding",    "weight": 8,
+      "mods": [ { "key": "rangedDamageResist", "value": 0.04, "op": "Mul" } ]},
+    { "code": "of_resolve",    "langKey": "driftrelics:affix-suffix-of_resolve",    "weight": 5, "minTier": "notable",
+      "mods": [ { "key": "maxHealth", "value": 5 } ]},
+    { "code": "of_the_drift",  "langKey": "driftrelics:affix-suffix-of_the_drift",  "weight": 3, "minTier": "drift-touched",
+      "mods": [ { "key": "moveSpeed", "value": 0.06, "op": "Mul" }, { "key": "rangedDamageResist", "value": 0.05, "op": "Mul" } ]}
   ]
 }
