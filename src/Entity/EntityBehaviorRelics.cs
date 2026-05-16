@@ -128,6 +128,19 @@ public class EntityBehaviorRelics : EntityBehavior
             var a = modSystem?.Affixes.GetByCode(suffix);
             if (a != null) foreach (var m in a.Mods) yield return m;
         }
+
+        var tier = RelicsUtil.GetTier(stack);
+        var reg = modSystem?.Affixes;
+        if (reg == null) yield break;
+        var pool = reg.BuildPool();
+        var tierCfg = pool.GetTier(tier);
+        if (tierCfg == null || !tierCfg.Signature) yield break;
+
+        var slotKey = (RelicsUtil.GetSlotType(stack) ?? RelicSlotType.Trinket)
+                      .ToString().ToLowerInvariant();
+        var sig = reg.GetSignatureFor(slotKey);
+        if (sig == null) yield break;
+        foreach (var m in sig.Mods) yield return m;
     }
 
     private static string ModifierCode(ItemStack stack, string key)
