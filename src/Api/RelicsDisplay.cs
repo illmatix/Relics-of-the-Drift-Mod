@@ -62,7 +62,9 @@ public static class RelicsDisplay
     }
 
     private const string AmberHex   = "#c9882a";
-    private const string DividerHex = "─────────────";
+    private const string EmberHex   = "#ffb957";
+    private const string DividerStr = "---------------";
+    private const string Bullet     = "·"; // middle dot (Latin-1; ✦ rendered as a box in VS's tooltip font)
 
     /// <summary>
     /// Appends the full parchment-themed tooltip block for an identified relic to <paramref name="dsc"/>:
@@ -79,8 +81,9 @@ public static class RelicsDisplay
         dsc.AppendLine(GetDisplayNameColored(stack, fallbackName, tiers));
 
         var tierCode = RelicsUtil.GetTier(stack);
-        dsc.AppendLine(Lang.Get("driftrelics:tier-line",
-                                Lang.Get("driftrelics:tier-" + tierCode)));
+        var tierName = Lang.Get("driftrelics:tier-" + tierCode);
+        var hex = TierColor(tiers, tierCode);
+        dsc.AppendLine($"<font color=\"{hex}\">{tierName}</font>");
 
         AppendDivider(dsc);
 
@@ -118,7 +121,7 @@ public static class RelicsDisplay
     }
 
     private static void AppendDivider(StringBuilder dsc)
-        => dsc.AppendLine($"<font color=\"{AmberHex}\">{DividerHex}</font>");
+        => dsc.AppendLine($"<font color=\"{AmberHex}\">{DividerStr}</font>");
 
     private static void AppendStatLine(StringBuilder dsc, ModifierEntry m, double scale)
     {
@@ -127,7 +130,9 @@ public static class RelicsDisplay
         var valueStr = m.Op == ModifierOp.Mul
             ? FormatPercent(scaled.Value)
             : FormatAdd(scaled.Value);
-        dsc.AppendLine($"<font color=\"{AmberHex}\">✦</font> {statName}: {valueStr}");
+        dsc.AppendLine(
+            $"<font color=\"{AmberHex}\">{Bullet}</font> {statName}: " +
+            $"<font color=\"{EmberHex}\">{valueStr}</font>");
     }
 
     private static string FormatAdd(double v)
