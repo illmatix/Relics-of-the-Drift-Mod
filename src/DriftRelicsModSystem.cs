@@ -53,11 +53,12 @@ public class DriftRelicsModSystem : ModSystem
         }
         var json = asset.ToText();
         var cfg = DriftRelics.Affixes.AffixConfigLoader.LoadFromJson(json);
-        Affixes.RollChances = cfg.RollChances;
+        Affixes.SetTiers(cfg.Tiers);
+        foreach (var kv in cfg.Signatures) Affixes.SetSignature(kv.Key, kv.Value);
         foreach (var a in cfg.Prefixes) Affixes.Register(a);
         foreach (var a in cfg.Suffixes) Affixes.Register(a);
         api.Logger.Notification(
-            $"[DriftRelics] loaded {cfg.Prefixes.Count} prefixes, {cfg.Suffixes.Count} suffixes");
+            $"[DriftRelics] loaded {cfg.Tiers.Count} tiers, {cfg.Prefixes.Count} prefixes, {cfg.Suffixes.Count} suffixes");
     }
 
     public override void StartClientSide(ICoreClientAPI capi)
