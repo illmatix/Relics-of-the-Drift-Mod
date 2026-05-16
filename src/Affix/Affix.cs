@@ -11,6 +11,7 @@ public sealed class Affix
     public string LangKey { get; set; } = "";
     public AffixKind Kind { get; set; }
     public int Weight { get; set; } = 10;
+    public string MinTier { get; set; } = "mundane";
     public RelicSlotType[]? AllowedSlots { get; set; }
     public List<ModifierEntry> Mods { get; set; } = new();
 

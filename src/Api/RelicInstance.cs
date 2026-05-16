@@ -5,4 +5,5 @@ public sealed record RelicInstance(
     string? PrefixCode,
     string? SuffixCode,
     long Seed,
-    bool Identified);
+    bool Identified,
+    string Tier = "mundane");

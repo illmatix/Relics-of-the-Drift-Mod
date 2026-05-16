@@ -53,4 +53,25 @@ public class AffixPocoTests
         Assert.True(affix.Allows(RelicSlotType.Bracelet));
         Assert.True(affix.Allows(RelicSlotType.Trinket));
     }
+
+    [Fact]
+    public void RelicInstance_DefaultTier_Is_Mundane()
+    {
+        var instance = new RelicInstance(RelicSlotType.Ring, null, null, 42L, Identified: false);
+        Assert.Equal("mundane", instance.Tier);
+    }
+
+    [Fact]
+    public void RelicInstance_Carries_Explicit_Tier()
+    {
+        var instance = new RelicInstance(RelicSlotType.Ring, "burning", null, 42L, Identified: true, Tier: "drift-touched");
+        Assert.Equal("drift-touched", instance.Tier);
+    }
+
+    [Fact]
+    public void Affix_DefaultMinTier_Is_Mundane()
+    {
+        var affix = new Affix { Code = "burning", Kind = AffixKind.Prefix };
+        Assert.Equal("mundane", affix.MinTier);
+    }
 }
