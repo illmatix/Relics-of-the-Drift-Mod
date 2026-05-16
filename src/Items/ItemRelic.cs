@@ -30,6 +30,12 @@ public class ItemRelic : Item, IRelicItem
         {
             if (!RelicsUtil.IsIdentified(stack))
             {
+                var tier = RelicsUtil.GetTier(stack);
+                if (tier != "mundane")
+                {
+                    var tierName = Lang.Get("driftrelics:tier-" + tier);
+                    dsc.AppendLine(Lang.Get("driftrelics:aura-line", tierName));
+                }
                 dsc.AppendLine(Lang.Get("driftrelics:unidentified-hint"));
             }
             else
