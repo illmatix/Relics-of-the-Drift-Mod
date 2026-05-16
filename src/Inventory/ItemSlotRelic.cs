@@ -19,6 +19,7 @@ public class ItemSlotRelic : ItemSlot
     {
         var stack = sourceSlot?.Itemstack;
         if (stack == null) return false;
+        if (!RelicsUtil.IsIdentified(stack)) return false;
         var slotType = RelicsUtil.GetSlotType(stack);
         return slotType == AllowedSlotType;
     }
@@ -26,8 +27,10 @@ public class ItemSlotRelic : ItemSlot
     public override bool CanTakeFrom(ItemSlot sourceSlot,
                                      EnumMergePriority priority = EnumMergePriority.AutoMerge)
     {
-        if (sourceSlot?.Itemstack == null) return false;
-        var slotType = RelicsUtil.GetSlotType(sourceSlot.Itemstack);
+        var stack = sourceSlot?.Itemstack;
+        if (stack == null) return false;
+        if (!RelicsUtil.IsIdentified(stack)) return false;
+        var slotType = RelicsUtil.GetSlotType(stack);
         return slotType == AllowedSlotType
             && base.CanTakeFrom(sourceSlot, priority);
     }
