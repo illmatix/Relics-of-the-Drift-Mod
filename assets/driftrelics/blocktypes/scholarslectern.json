@@ -2,13 +2,19 @@
   "code": "scholarslectern",
   "class": "BlockScholarsLectern",
   "entityClass": "BEScholarsLectern",
-  "shape": { "base": "game:block/basic/cube" },
-  "textures": { "all": { "base": "driftrelics:block/scholarslectern" } },
+  "drawtype": "JSON",
+  "shape": { "base": "driftrelics:block/scholarslectern" },
+  "textures": {
+    "oak":   { "base": "game:block/wood/planks/oak1" },
+    "cover": { "base": "game:block/wood/planks/walnut1" },
+    "pages": { "base": "game:item/lore/pages-aged" }
+  },
   "creativeinventory": { "general": ["*"], "decorative": ["*"] },
   "blockmaterial": "Wood",
-  "drawtype": "Cube",
-  "sidesolid": { "all": true },
-  "sidesopaque": { "all": true },
+  "sidesolid": { "down": true, "up": false, "north": false, "south": false, "east": false, "west": false },
+  "sidesopaque": { "all": false },
   "resistance": 3.5,
+  "collisionbox": { "x1": 0.0625, "y1": 0, "z1": 0.0625, "x2": 0.9375, "y2": 1.0, "z2": 0.9375 },
+  "selectionbox": { "x1": 0.0625, "y1": 0, "z1": 0.0625, "x2": 0.9375, "y2": 1.0, "z2": 0.9375 },
   "sounds": { "place": "game:block/planks", "break": "game:block/planks" }
 }
