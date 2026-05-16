@@ -11,6 +11,7 @@ public sealed class RelicsAPI : IRelicsAPI
     private readonly ICoreAPI api;
     public IAffixRegistry Affixes { get; }
     public IModifierRegistry Modifiers { get; }
+    public System.Collections.Generic.IReadOnlyList<TierConfig> Tiers => Affixes.Tiers;
 
     public event Action<EntityPlayer, ItemStack, RelicSlotType>? OnRelicEquipped;
     public event Action<EntityPlayer, ItemStack, RelicSlotType>? OnRelicUnequipped;
@@ -32,6 +33,7 @@ public sealed class RelicsAPI : IRelicsAPI
     public RelicInstance? GetInstance(ItemStack? stack) => RelicsUtil.GetInstance(stack);
     public string GetDisplayName(ItemStack stack)
         => RelicsDisplay.GetDisplayName(stack, stack.GetName());
+    public string GetTier(ItemStack? stack) => RelicsUtil.GetTier(stack);
 
     public ItemStack? RollUnidentifiedRelic(RelicSlotType slotType, long seed)
     {

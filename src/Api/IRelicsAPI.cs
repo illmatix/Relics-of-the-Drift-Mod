@@ -12,9 +12,11 @@ public interface IRelicsAPI
     bool IsIdentified(ItemStack? stack);
     RelicInstance? GetInstance(ItemStack? stack);
     string GetDisplayName(ItemStack stack);
+    string GetTier(ItemStack? stack);
 
     IAffixRegistry Affixes { get; }
     IModifierRegistry Modifiers { get; }
+    System.Collections.Generic.IReadOnlyList<DriftRelics.Affixes.TierConfig> Tiers { get; }
 
     ItemStack? RollUnidentifiedRelic(RelicSlotType slotType, long seed);
     void Identify(ItemStack stack);
