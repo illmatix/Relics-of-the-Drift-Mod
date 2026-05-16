@@ -74,4 +74,23 @@ public class AffixPocoTests
         var affix = new Affix { Code = "burning", Kind = AffixKind.Prefix };
         Assert.Equal("mundane", affix.MinTier);
     }
+
+    [Fact]
+    public void TierConfig_Defaults_Are_Sensible()
+    {
+        var t = new TierConfig { Code = "mundane" };
+        Assert.Equal(50, t.Weight);
+        Assert.Equal("#aaaaaa", t.Color);
+        Assert.Equal(1, t.AffixCount);
+        Assert.Equal(1.0, t.ValueScale);
+        Assert.False(t.Signature);
+    }
+
+    [Fact]
+    public void SignatureAffix_Defaults_Are_Sensible()
+    {
+        var s = new SignatureAffix();
+        Assert.NotNull(s.Mods);
+        Assert.Empty(s.Mods);
+    }
 }
