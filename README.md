@@ -8,6 +8,7 @@ Accessory slots for the character screen, randomly-rolled affix names, and a res
 
 - **4 new accessory slots** on the character screen — Ring × 2, Bracelet, Trinket.
 - **Affix-based naming** — Prefix + Base + Suffix (e.g. *Burning Ring of Swiftness*) driven by a JSON-defined pool.
+- **Rarity tiers** — every relic rolls one of four tiers (mundane / curious / notable / drift-touched), each with its own affix count, value scaling, and (at the top tier) a per-slot-type signature implicit affix. Tier is hidden until identified; unidentified relics show a subtle tier-colored aura hint in the tooltip.
 - **Unidentified state** — fresh relics show a deterministic scrambled name and grant no modifiers until studied.
 - **Scholar's Lectern** — a freestanding podium with a closed book on a slanted reading surface; identifies a single relic over 60 seconds via a bespoke parchment-themed dialog with a live progress bar, amber rune accents around the slot, and ember motes drifting up during research.
 - **Themed UI** — the Relics character tab uses the same procedurally-drawn parchment styling (radial vignette, fold creases, ink stains, braided amber accent) so the two screens read as one mod.
@@ -70,7 +71,6 @@ Multiplayer (host + one client):
 ## Things explicitly deferred to a later version
 
 - Survival loot generation (drops from creatures / structures).
-- Affix rarity tiers (magic / rare / legendary).
 - Re-rolling, socketing, transmutation.
 - Player-model rendering of equipped relics.
 - ConfigLib integration for in-game affix editing.
