@@ -4,16 +4,28 @@ namespace DriftRelics.Affixes;
 
 public sealed class AffixPool
 {
-    public AffixRollChances RollChances { get; }
+    public IReadOnlyList<TierConfig> Tiers { get; }
     public IReadOnlyList<Affix> Prefixes { get; }
     public IReadOnlyList<Affix> Suffixes { get; }
+    private readonly IReadOnlyDictionary<string, SignatureAffix> signatures;
 
-    public AffixPool(AffixRollChances rollChances,
+    public AffixPool(IReadOnlyList<TierConfig> tiers,
                      IReadOnlyList<Affix> prefixes,
-                     IReadOnlyList<Affix> suffixes)
+                     IReadOnlyList<Affix> suffixes,
+                     IReadOnlyDictionary<string, SignatureAffix> signatures)
     {
-        RollChances = rollChances;
+        Tiers = tiers;
         Prefixes = prefixes;
         Suffixes = suffixes;
+        this.signatures = signatures;
+    }
+
+    public SignatureAffix? GetSignatureFor(string slotTypeKey)
+        => signatures.TryGetValue(slotTypeKey, out var s) ? s : null;
+
+    public TierConfig? GetTier(string code)
+    {
+        for (int i = 0; i < Tiers.Count; i++) if (Tiers[i].Code == code) return Tiers[i];
+        return null;
     }
 }

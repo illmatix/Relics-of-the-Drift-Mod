@@ -24,6 +24,7 @@
     <Compile Include="../../src/Api/RelicSlotType.cs" Link="Api/RelicSlotType.cs" />
     <Compile Include="../../src/Api/RelicInstance.cs" Link="Api/RelicInstance.cs" />
     <Compile Include="../../src/Api/IRelicItem.cs" Link="Api/IRelicItem.cs" />
+    <Compile Include="../../src/Api/IAffixRegistry.cs" Link="Api/IAffixRegistry.cs" />
     <Compile Include="../../src/Modifier/ModifierOp.cs" Link="Modifier/ModifierOp.cs" />
     <Compile Include="../../src/Modifier/ModifierEntry.cs" Link="Modifier/ModifierEntry.cs" />
     <Compile Include="../../src/Affix/AffixKind.cs" Link="Affix/AffixKind.cs" />
@@ -32,6 +33,8 @@
     <Compile Include="../../src/Affix/SignatureAffix.cs" Link="Affix/SignatureAffix.cs" />
     <Compile Include="../../src/Affix/AffixConfig.cs" Link="Affix/AffixConfig.cs" />
     <Compile Include="../../src/Affix/ScrambleNameGenerator.cs" Link="Affix/ScrambleNameGenerator.cs" />
+    <Compile Include="../../src/Affix/AffixRegistry.cs" Link="Affix/AffixRegistry.cs" />
+    <Compile Include="../../src/Affix/AffixPool.cs" Link="Affix/AffixPool.cs" />
     <Compile Include="../../src/Affix/AffixConfigLoader.cs" Link="Affix/AffixConfigLoader.cs" />
   </ItemGroup>
 

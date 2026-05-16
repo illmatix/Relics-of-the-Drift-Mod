@@ -93,4 +93,21 @@ public class AffixPocoTests
         Assert.NotNull(s.Mods);
         Assert.Empty(s.Mods);
     }
+
+    [Fact]
+    public void AffixRegistry_Stores_Tiers_And_Signatures()
+    {
+        var reg = new AffixRegistry();
+        reg.SetTiers(new System.Collections.Generic.List<TierConfig>
+        {
+            new() { Code = "mundane", Weight = 50 },
+            new() { Code = "drift-touched", Weight = 5, Signature = true }
+        });
+        reg.SetSignature("ring", new SignatureAffix { Code = "drift_mark" });
+
+        var pool = reg.BuildPool();
+        Assert.Equal(2, pool.Tiers.Count);
+        Assert.NotNull(pool.GetSignatureFor("ring"));
+        Assert.Null(pool.GetSignatureFor("trinket"));
+    }
 }
