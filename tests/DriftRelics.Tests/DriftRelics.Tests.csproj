@@ -36,6 +36,7 @@
     <Compile Include="../../src/Affix/AffixRegistry.cs" Link="Affix/AffixRegistry.cs" />
     <Compile Include="../../src/Affix/AffixPool.cs" Link="Affix/AffixPool.cs" />
     <Compile Include="../../src/Affix/AffixConfigLoader.cs" Link="Affix/AffixConfigLoader.cs" />
+    <Compile Include="../../src/Affix/TierRoller.cs" Link="Affix/TierRoller.cs" />
   </ItemGroup>
 
   <!--
