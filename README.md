@@ -50,16 +50,16 @@ Note: the affix namespace is `DriftRelics.Affixes` (plural) — collides with th
 ## Final manual checklist before tagging 0.1.0
 
 Singleplayer:
-- [ ] Relics tab visible alongside Character and Traits.
-- [ ] Slot type enforcement: ring rejects bracelet, etc.
-- [ ] Persistence across save/load with same prefix/suffix/identified state.
-- [ ] Scrambled name is deterministic by seed (re-roll same seed → same name).
-- [ ] Identified relic shows "[Prefix] [Base] [of Suffix]" with localised affix names.
-- [ ] Equip an identified relic → `EntityPlayer.Stats` shows the expected modifier code.
-- [ ] Unequip → modifier disappears.
-- [ ] Lectern: place unidentified relic → wait 60s → identified, name resolves.
-- [ ] Lectern: already-identified relic passes through without progress.
-- [ ] Save during research → progress persists across reload.
+- [x] Relics tab visible alongside Character and Traits.
+- [x] Slot type enforcement: ring rejects bracelet, etc.
+- [x] Persistence across save/load with same prefix/suffix/identified state.
+- [x] Scrambled name is deterministic by seed (re-roll same seed → same name).
+- [x] Identified relic shows "[Prefix] [Base] [of Suffix]" with localised affix names.
+- [x] Equip an identified relic → `EntityPlayer.Stats` shows the expected modifier code.
+- [x] Unequip → modifier disappears.
+- [x] Lectern: place unidentified relic → wait 60s → identified, name resolves.
+- [x] Lectern: already-identified relic passes through without progress.
+- [x] Save during research → progress persists across reload.
 
 Multiplayer (host + one client):
 - [ ] Each player has their own relic inventory; reconnects preserve state.

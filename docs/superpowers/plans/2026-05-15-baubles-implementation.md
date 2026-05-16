@@ -2978,16 +2978,16 @@ baubles.Modifiers.Register("myKey", (player, value, op, code, apply) => { /* ...
 ## Final manual checklist before tagging 0.1.0
 
 Singleplayer:
-- [ ] Baubles tab visible alongside Character and Traits.
-- [ ] Slot type enforcement: ring rejects bracelet, etc.
-- [ ] Persistence across save/load with same prefix/suffix/identified state.
-- [ ] Scrambled name is deterministic by seed (re-roll same seed → same name).
-- [ ] Identified bauble shows "[Prefix] [Base] [of Suffix]" with localised affix names.
-- [ ] Equip an identified bauble → `EntityPlayer.Stats` shows the expected modifier code.
-- [ ] Unequip → modifier disappears.
-- [ ] Lectern: place unidentified bauble → progress fills → identified, name resolves.
-- [ ] Lectern: already-identified bauble passes through without progress.
-- [ ] Save during research → progress persists across reload.
+- [x] Baubles tab visible alongside Character and Traits.
+- [x] Slot type enforcement: ring rejects bracelet, etc.
+- [x] Persistence across save/load with same prefix/suffix/identified state.
+- [x] Scrambled name is deterministic by seed (re-roll same seed → same name).
+- [x] Identified bauble shows "[Prefix] [Base] [of Suffix]" with localised affix names.
+- [x] Equip an identified bauble → `EntityPlayer.Stats` shows the expected modifier code.
+- [x] Unequip → modifier disappears.
+- [x] Lectern: place unidentified bauble → progress fills → identified, name resolves.
+- [x] Lectern: already-identified bauble passes through without progress.
+- [x] Save during research → progress persists across reload.
 
 Multiplayer (host + one client):
 - [ ] Each player has their own bauble inventory; reconnects preserve state.
