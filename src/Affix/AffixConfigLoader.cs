@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
@@ -16,11 +17,11 @@ public static class AffixConfigLoader
     {
         var cfg = JsonConvert.DeserializeObject<AffixConfig>(json, Settings)
                   ?? new AffixConfig();
-        cfg.RollChances ??= new AffixRollChances();
-        cfg.Prefixes ??= new System.Collections.Generic.List<Affix>();
-        cfg.Suffixes ??= new System.Collections.Generic.List<Affix>();
+        cfg.Tiers      ??= new List<TierConfig>();
+        cfg.Signatures ??= new Dictionary<string, SignatureAffix>();
+        cfg.Prefixes   ??= new List<Affix>();
+        cfg.Suffixes   ??= new List<Affix>();
 
-        // Force Kind on entries — JSON authors shouldn't have to repeat it.
         foreach (var a in cfg.Prefixes) a.Kind = AffixKind.Prefix;
         foreach (var a in cfg.Suffixes) a.Kind = AffixKind.Suffix;
 
