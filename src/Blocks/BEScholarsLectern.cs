@@ -1,7 +1,9 @@
 using DriftRelics.Api;
+using DriftRelics.Gui;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
-using Vintagestory.API.Server;
 using Vintagestory.GameContent;
 
 namespace DriftRelics.Blocks;
@@ -16,6 +18,9 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
 
     public float ResearchProgressSeconds { get; private set; }
     public float ResearchDurationSeconds { get; private set; } = 60f;
+
+    private float lastSyncSeconds;
+    private GuiDialogBlockEntityLectern? clientDialog;
 
     public BEScholarsLectern()
     {
@@ -51,13 +56,15 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
             var modSystem = Api.ModLoader.GetModSystem<DriftRelicsModSystem>();
             modSystem.Api.Identify(stack);
             slot.MarkDirty();
-            MarkDirty(true);
             ResearchProgressSeconds = 0;
+            lastSyncSeconds = 0;
+            MarkDirty(true);
         }
-        // No per-tick MarkDirty during in-progress ticks — there is no client-side
-        // progress UI yet to consume the value, and pushing a BE update every 250ms
-        // is 240 packets per research per nearby client. Add the per-tick sync back
-        // when a progress dialog lands (deferred to v1.1).
+        else if (ResearchProgressSeconds - lastSyncSeconds >= 1f)
+        {
+            lastSyncSeconds = ResearchProgressSeconds;
+            MarkDirty(true);
+        }
     }
 
     private void Reset()
@@ -65,23 +72,38 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
         if (ResearchProgressSeconds != 0)
         {
             ResearchProgressSeconds = 0;
+            lastSyncSeconds = 0;
             MarkDirty(true);
         }
     }
 
     public override bool OnPlayerRightClick(IPlayer byPlayer, BlockSelection blockSel)
     {
-        if (byPlayer is IServerPlayer sp)
+        if (Api.Side == EnumAppSide.Client)
         {
-            sp.InventoryManager.OpenInventory(InventoryRef);
-            return true;
+            toggleInventoryDialogClient(byPlayer, () =>
+            {
+                clientDialog = new GuiDialogBlockEntityLectern(
+                    Lang.Get("driftrelics:block-scholarslectern"),
+                    InventoryRef,
+                    Pos,
+                    (ICoreClientAPI)Api);
+                clientDialog.Update(ResearchProgressSeconds, ResearchDurationSeconds);
+                clientDialog.OnClosed += () => clientDialog = null;
+                return clientDialog;
+            });
         }
-        return false;
+        return true;
     }
 
-    public void OnPlayerInteract(IPlayer byPlayer)
+    public override void OnReceivedServerPacket(int packetid, byte[] data)
     {
-        OnPlayerRightClick(byPlayer, null!);
+        base.OnReceivedServerPacket(packetid, data);
+        if (packetid == 1001)
+        {
+            clientDialog?.TryClose();
+            clientDialog = null;
+        }
     }
 
     public override void ToTreeAttributes(ITreeAttribute tree)
@@ -99,6 +121,11 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
         var invTree = tree.GetTreeAttribute("inventory");
         if (invTree != null) InventoryRef.FromTreeAttributes(invTree);
         ResearchProgressSeconds = tree.GetFloat("researchProgress", 0);
+
+        if (worldForResolving.Side == EnumAppSide.Client)
+        {
+            clientDialog?.Update(ResearchProgressSeconds, ResearchDurationSeconds);
+        }
     }
 
     private sealed class LecternConfig { public float ResearchDurationSeconds { get; set; } = 60f; }

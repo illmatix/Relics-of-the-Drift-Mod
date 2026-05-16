@@ -42,6 +42,10 @@
       <HintPath>$(VintageStoryPath)/Lib/SkiaSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="CairoSharp">
+      <HintPath>$(VintageStoryPath)/Lib/cairo-sharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(VintageStoryPath)/Lib/Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>

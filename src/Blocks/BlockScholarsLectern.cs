@@ -11,8 +11,7 @@ public class BlockScholarsLectern : Block
         if (world.BlockAccessor.GetBlockEntity(blockSel.Position)
                 is BEScholarsLectern be)
         {
-            be.OnPlayerInteract(byPlayer);
-            return true;
+            return be.OnPlayerRightClick(byPlayer, blockSel);
         }
         return base.OnBlockInteractStart(world, byPlayer, blockSel);
     }
