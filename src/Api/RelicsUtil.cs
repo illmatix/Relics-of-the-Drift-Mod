@@ -11,6 +11,7 @@ public static class RelicsUtil
     private const string AttrPrefix     = "relic.prefix";
     private const string AttrSuffix     = "relic.suffix";
     private const string AttrIdentified = "relic.identified";
+    private const string AttrTier       = "relic.tier";
 
     public static RelicSlotType? GetSlotType(ItemStack? stack)
     {
@@ -46,6 +47,12 @@ public static class RelicsUtil
         return string.IsNullOrEmpty(s) ? null : s;
     }
 
+    public static string GetTier(ItemStack? stack)
+        => stack?.Attributes?.GetString(AttrTier, "mundane") ?? "mundane";
+
+    public static void SetTier(ItemStack stack, string tier)
+        => stack.Attributes.SetString(AttrTier, tier);
+
     public static RelicInstance? GetInstance(ItemStack? stack)
     {
         var slot = GetSlotType(stack);
@@ -55,7 +62,8 @@ public static class RelicsUtil
             GetPrefixCode(stack),
             GetSuffixCode(stack),
             GetSeed(stack),
-            IsIdentified(stack));
+            IsIdentified(stack),
+            GetTier(stack));
     }
 
     public static void WriteInstance(ItemStack stack, RelicInstance instance)
@@ -64,5 +72,6 @@ public static class RelicsUtil
         stack.Attributes.SetString(AttrPrefix, instance.PrefixCode ?? "");
         stack.Attributes.SetString(AttrSuffix, instance.SuffixCode ?? "");
         stack.Attributes.SetBool(AttrIdentified, instance.Identified);
+        stack.Attributes.SetString(AttrTier, instance.Tier);
     }
 }

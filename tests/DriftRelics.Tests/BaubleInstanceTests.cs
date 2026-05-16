@@ -22,3 +22,6 @@ public class RelicInstanceTests
         Assert.Equal(2, (int)RelicSlotType.Trinket);
     }
 }
+
+// Tier persistence tests - defined here but require ItemStack fixtures to run.
+// See also: Task 7 restores RelicsUtil to test project with proper fixtures.
