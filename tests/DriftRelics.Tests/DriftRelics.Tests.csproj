@@ -27,6 +27,7 @@
     <Compile Include="../../src/Api/IAffixRegistry.cs" Link="Api/IAffixRegistry.cs" />
     <Compile Include="../../src/Modifier/ModifierOp.cs" Link="Modifier/ModifierOp.cs" />
     <Compile Include="../../src/Modifier/ModifierEntry.cs" Link="Modifier/ModifierEntry.cs" />
+    <Compile Include="../../src/Modifier/ModifierScaling.cs" Link="Modifier/ModifierScaling.cs" />
     <Compile Include="../../src/Affix/AffixKind.cs" Link="Affix/AffixKind.cs" />
     <Compile Include="../../src/Affix/Affix.cs" Link="Affix/Affix.cs" />
     <Compile Include="../../src/Affix/TierConfig.cs" Link="Affix/TierConfig.cs" />

@@ -97,21 +97,33 @@ public class EntityBehaviorRelics : EntityBehavior
     private void ApplyMods(ItemStack stack)
     {
         if (entity is not Vintagestory.API.Common.EntityPlayer ep) return;
+        var scale = LookupScale(stack);
         foreach (var entry in EnumerateMods(stack))
         {
-            var code = ModifierCode(stack, entry.Key);
-            modSystem?.Modifiers.TryApply(ep, entry, code);
+            var scaled = DriftRelics.Modifier.ModifierScaling.Scale(entry, scale);
+            var code = ModifierCode(stack, scaled.Key);
+            modSystem?.Modifiers.TryApply(ep, scaled, code);
         }
     }
 
     private void RemoveMods(ItemStack stack)
     {
         if (entity is not Vintagestory.API.Common.EntityPlayer ep) return;
+        var scale = LookupScale(stack);
         foreach (var entry in EnumerateMods(stack))
         {
-            var code = ModifierCode(stack, entry.Key);
-            modSystem?.Modifiers.TryRemove(ep, entry, code);
+            var scaled = DriftRelics.Modifier.ModifierScaling.Scale(entry, scale);
+            var code = ModifierCode(stack, scaled.Key);
+            modSystem?.Modifiers.TryRemove(ep, scaled, code);
         }
+    }
+
+    private double LookupScale(ItemStack stack)
+    {
+        var tier = RelicsUtil.GetTier(stack);
+        var reg = modSystem?.Affixes;
+        if (reg == null) return 1.0;
+        return reg.BuildPool().GetTier(tier)?.ValueScale ?? 1.0;
     }
 
     private IEnumerable<ModifierEntry> EnumerateMods(ItemStack stack)
