@@ -1,5 +1,8 @@
+using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using DriftRelics.Affixes;
+using DriftRelics.Modifier;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 
@@ -56,5 +59,95 @@ public static class RelicsDisplay
             sb.Append(Lang.Get("driftrelics:affix-suffix-" + suffix));
         }
         return sb.ToString();
+    }
+
+    private const string AmberHex   = "#c9882a";
+    private const string DividerHex = "─────────────";
+
+    /// <summary>
+    /// Appends the full parchment-themed tooltip block for an identified relic to <paramref name="dsc"/>:
+    /// tier-colored name, tier line, amber divider, scaled stat lines, and (for drift-touched) a
+    /// signature flavor line plus its scaled mods. Skips entirely for unidentified / non-relic stacks.
+    /// </summary>
+    public static void AppendIdentifiedTooltip(StringBuilder dsc, ItemStack stack,
+                                               string fallbackName,
+                                               IAffixRegistry registry)
+    {
+        if (!RelicsUtil.IsRelic(stack) || !RelicsUtil.IsIdentified(stack)) return;
+
+        var tiers = registry.Tiers;
+        dsc.AppendLine(GetDisplayNameColored(stack, fallbackName, tiers));
+
+        var tierCode = RelicsUtil.GetTier(stack);
+        dsc.AppendLine(Lang.Get("driftrelics:tier-line",
+                                Lang.Get("driftrelics:tier-" + tierCode)));
+
+        AppendDivider(dsc);
+
+        var pool = registry.BuildPool();
+        var tierCfg = pool.GetTier(tierCode);
+        double scale = tierCfg?.ValueScale ?? 1.0;
+
+        var prefixCode = RelicsUtil.GetPrefixCode(stack);
+        var suffixCode = RelicsUtil.GetSuffixCode(stack);
+        if (!string.IsNullOrEmpty(prefixCode))
+        {
+            var a = registry.GetByCode(prefixCode);
+            if (a != null) foreach (var m in a.Mods) AppendStatLine(dsc, m, scale);
+        }
+        if (!string.IsNullOrEmpty(suffixCode))
+        {
+            var a = registry.GetByCode(suffixCode);
+            if (a != null) foreach (var m in a.Mods) AppendStatLine(dsc, m, scale);
+        }
+
+        if (tierCfg?.Signature ?? false)
+        {
+            var slotKey = (RelicsUtil.GetSlotType(stack) ?? RelicSlotType.Trinket)
+                          .ToString().ToLowerInvariant();
+            var sig = registry.GetSignatureFor(slotKey);
+            if (sig != null)
+            {
+                AppendDivider(dsc);
+                var sigFlavor = string.IsNullOrEmpty(sig.LangKey) ? sig.Code : Lang.Get(sig.LangKey);
+                var tierColor = TierColor(tiers, tierCode);
+                dsc.AppendLine($"<font color=\"{tierColor}\"><i>{sigFlavor}</i></font>");
+                foreach (var m in sig.Mods) AppendStatLine(dsc, m, scale);
+            }
+        }
+    }
+
+    private static void AppendDivider(StringBuilder dsc)
+        => dsc.AppendLine($"<font color=\"{AmberHex}\">{DividerHex}</font>");
+
+    private static void AppendStatLine(StringBuilder dsc, ModifierEntry m, double scale)
+    {
+        var scaled = ModifierScaling.Scale(m, scale);
+        var statName = Lang.Get("driftrelics:stat-" + m.Key);
+        var valueStr = m.Op == ModifierOp.Mul
+            ? FormatPercent(scaled.Value)
+            : FormatAdd(scaled.Value);
+        dsc.AppendLine($"<font color=\"{AmberHex}\">✦</font> {statName}: {valueStr}");
+    }
+
+    private static string FormatAdd(double v)
+    {
+        var rounded = (v == (int)v) ? ((int)v).ToString(CultureInfo.InvariantCulture)
+                                    : v.ToString("0.##", CultureInfo.InvariantCulture);
+        return v >= 0 ? "+" + rounded : rounded;
+    }
+
+    private static string FormatPercent(double v)
+    {
+        var pct = v * 100;
+        var s = pct.ToString("0.#", CultureInfo.InvariantCulture);
+        return pct >= 0 ? "+" + s + "%" : s + "%";
+    }
+
+    private static string TierColor(IReadOnlyList<TierConfig> tiers, string tierCode)
+    {
+        for (int i = 0; i < tiers.Count; i++)
+            if (tiers[i].Code == tierCode) return tiers[i].Color;
+        return "#ffffff";
     }
 }

@@ -41,11 +41,9 @@ public class ItemRelic : Item, IRelicItem
             else
             {
                 var modSystem = api.ModLoader.GetModSystem<DriftRelicsModSystem>();
-                var colored = RelicsDisplay.GetDisplayNameColored(stack, base.GetHeldItemName(stack),
-                                                                  modSystem.Api.Tiers);
-                dsc.AppendLine(colored);
-                var tierName = Lang.Get("driftrelics:tier-" + RelicsUtil.GetTier(stack));
-                dsc.AppendLine(Lang.Get("driftrelics:tier-line", tierName));
+                RelicsDisplay.AppendIdentifiedTooltip(dsc, stack,
+                                                     base.GetHeldItemName(stack),
+                                                     modSystem.Api.Affixes);
             }
         }
         base.GetHeldItemInfo(inSlot, dsc, world, withDebugInfo);
