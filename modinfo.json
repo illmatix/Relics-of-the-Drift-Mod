@@ -4,7 +4,7 @@
   "name": "Relics of the Drift",
   "authors": ["illmatix"],
   "description": "Adds accessory slots (rings, bracelet, trinket) to the character screen, with randomly-rolled affixes and a research lectern for identification.",
-  "version": "0.0.0-dev",
+  "version": "0.1.0",
   "requiredOnClient": true,
   "dependencies": {
     "game": ""

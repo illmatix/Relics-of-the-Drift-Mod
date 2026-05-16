@@ -33,7 +33,7 @@
 
 The main `Baubles.csproj` references VS DLLs and cannot be tested in isolation, but several modules in this plan (scramble generator, roller, affix loader) are pure C# with no VS dependency. We isolate those into a sibling `Baubles.Tests` project that does not reference the main project — instead, the pure modules will live in `src/` and be added to both projects via `Compile Include` glob in the test project. This avoids dragging VS DLLs into the test runtime.
 
-- [ ] **Step 1: Create the test project**
+- [x] **Step 1: Create the test project**
 
 ```bash
 mkdir -p /home/illmatix/workspace/Baubles/tests/Baubles.Tests
@@ -70,7 +70,7 @@ Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.cspro
 </Project>
 ```
 
-- [ ] **Step 2: Add a smoke test that proves the runner works**
+- [x] **Step 2: Add a smoke test that proves the runner works**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/SmokeTest.cs`:
 
@@ -89,7 +89,7 @@ public class SmokeTest
 }
 ```
 
-- [ ] **Step 3: Add the test project to the solution**
+- [x] **Step 3: Add the test project to the solution**
 
 Replace `/home/illmatix/workspace/Baubles/Baubles.slnx` with:
 
@@ -100,7 +100,7 @@ Replace `/home/illmatix/workspace/Baubles/Baubles.slnx` with:
 </Solution>
 ```
 
-- [ ] **Step 4: Verify the test runs**
+- [x] **Step 4: Verify the test runs**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -112,7 +112,7 @@ Expected output (last few lines):
 Passed!  - Failed:     0, Passed:     1, Skipped:     0, Total:     1
 ```
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -134,7 +134,7 @@ git commit -m "test: add xUnit test project for pure-logic modules"
 
 These are pure types with no VS dependency. They form the contract that the rest of the mod and downstream mods consume.
 
-- [ ] **Step 1: Add the failing test**
+- [x] **Step 1: Add the failing test**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/BaubleInstanceTests.cs`:
 
@@ -165,7 +165,7 @@ public class BaubleInstanceTests
 }
 ```
 
-- [ ] **Step 2: Run the test and verify it fails with a compile error**
+- [x] **Step 2: Run the test and verify it fails with a compile error**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -174,7 +174,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: compilation error referencing `Baubles.Api`.
 
-- [ ] **Step 3: Create the type files**
+- [x] **Step 3: Create the type files**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/BaubleSlotType.cs`:
 
@@ -213,7 +213,7 @@ public interface IBaubleItem
 }
 ```
 
-- [ ] **Step 4: Add the new pure files to the test project compile list**
+- [x] **Step 4: Add the new pure files to the test project compile list**
 
 Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`. Replace the `<ItemGroup><!-- Populated by subsequent tasks --></ItemGroup>` block with:
 
@@ -225,7 +225,7 @@ Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`
   </ItemGroup>
 ```
 
-- [ ] **Step 5: Run the tests, expect green**
+- [x] **Step 5: Run the tests, expect green**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -234,7 +234,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: `Passed: 3, Failed: 0`.
 
-- [ ] **Step 6: Build the main project to ensure the new files compile against VS DLLs too**
+- [x] **Step 6: Build the main project to ensure the new files compile against VS DLLs too**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -243,7 +243,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -266,7 +266,7 @@ git commit -m "feat(api): add BaubleSlotType, BaubleInstance, IBaubleItem"
 
 Pure data types that describe an affix and its modifier list. No VS dependency yet; this lets us test the roller and loader in isolation.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/AffixPocoTests.cs`:
 
@@ -329,7 +329,7 @@ public class AffixPocoTests
 }
 ```
 
-- [ ] **Step 2: Run and verify it fails (compile error)**
+- [x] **Step 2: Run and verify it fails (compile error)**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -338,7 +338,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: error CS0234, missing `Baubles.Affix` / `Baubles.Modifier`.
 
-- [ ] **Step 3: Implement the POCOs**
+- [x] **Step 3: Implement the POCOs**
 
 Create `/home/illmatix/workspace/Baubles/src/Modifier/ModifierOp.cs`:
 
@@ -422,7 +422,7 @@ public sealed class AffixRollChances
 }
 ```
 
-- [ ] **Step 4: Add files to the test project's compile list**
+- [x] **Step 4: Add files to the test project's compile list**
 
 Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`. Replace the existing `<ItemGroup>` (the one with `Compile Include` entries) so that it reads:
 
@@ -439,7 +439,7 @@ Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`
   </ItemGroup>
 ```
 
-- [ ] **Step 5: Run tests, expect green**
+- [x] **Step 5: Run tests, expect green**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -448,7 +448,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: 7 passed.
 
-- [ ] **Step 6: Build the main project**
+- [x] **Step 6: Build the main project**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -457,7 +457,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -476,7 +476,7 @@ git commit -m "feat(affix): add Affix, ModifierEntry, AffixConfig POCOs"
 
 Pure deterministic name generator. Takes a long seed; returns a gibberish-looking 2–5-syllable name. Must be stable across calls and across .NET 8 runtimes (uses `System.Random` with a seed derived from the input).
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/ScrambleNameGeneratorTests.cs`:
 
@@ -528,7 +528,7 @@ public class ScrambleNameGeneratorTests
 }
 ```
 
-- [ ] **Step 2: Run, expect compile failure**
+- [x] **Step 2: Run, expect compile failure**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -537,7 +537,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: missing `ScrambleNameGenerator`.
 
-- [ ] **Step 3: Implement the generator**
+- [x] **Step 3: Implement the generator**
 
 Create `/home/illmatix/workspace/Baubles/src/Affix/ScrambleNameGenerator.cs`:
 
@@ -595,7 +595,7 @@ public static class ScrambleNameGenerator
 }
 ```
 
-- [ ] **Step 4: Add to test project compile list**
+- [x] **Step 4: Add to test project compile list**
 
 Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`, append inside the existing `Compile Include` ItemGroup:
 
@@ -603,7 +603,7 @@ Edit `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/Baubles.Tests.csproj`
     <Compile Include="../../src/Affix/ScrambleNameGenerator.cs" Link="Affix/ScrambleNameGenerator.cs" />
 ```
 
-- [ ] **Step 5: Run tests, expect green**
+- [x] **Step 5: Run tests, expect green**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -612,7 +612,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: 4 passed.
 
-- [ ] **Step 6: Eyeball a few outputs (manual sanity check)**
+- [x] **Step 6: Eyeball a few outputs (manual sanity check)**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -628,7 +628,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet script /tmp/scramble-e
 
 Expected: five distinct gibberish names. If `dotnet script` is not installed, skip this — the unit tests already prove determinism and distinctness.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -648,7 +648,7 @@ git commit -m "feat(affix): add deterministic ScrambleNameGenerator"
 
 `BaubleRoller.Roll(slotType, seed, pool)` is a pure function that returns a `BaubleInstance`. The pool is a small abstraction over the affix lists so the roller doesn't need the full `AffixRegistry` (which we'll define later, on top of `AffixPool`).
 
-- [ ] **Step 1: Write the failing tests**
+- [x] **Step 1: Write the failing tests**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/BaubleRollerTests.cs`:
 
@@ -759,7 +759,7 @@ public class BaubleRollerTests
 }
 ```
 
-- [ ] **Step 2: Run, expect compile failure**
+- [x] **Step 2: Run, expect compile failure**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -768,7 +768,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: missing `BaubleRoller` / `AffixPool`.
 
-- [ ] **Step 3: Implement `AffixPool` and `BaubleRoller`**
+- [x] **Step 3: Implement `AffixPool` and `BaubleRoller`**
 
 Create `/home/illmatix/workspace/Baubles/src/Affix/AffixPool.cs`:
 
@@ -850,7 +850,7 @@ public static class BaubleRoller
 }
 ```
 
-- [ ] **Step 4: Add to test project compile list**
+- [x] **Step 4: Add to test project compile list**
 
 Append to the `Compile Include` ItemGroup in `tests/Baubles.Tests/Baubles.Tests.csproj`:
 
@@ -859,7 +859,7 @@ Append to the `Compile Include` ItemGroup in `tests/Baubles.Tests/Baubles.Tests.
     <Compile Include="../../src/Affix/BaubleRoller.cs" Link="Affix/BaubleRoller.cs" />
 ```
 
-- [ ] **Step 5: Run tests**
+- [x] **Step 5: Run tests**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -868,7 +868,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: 5 passed.
 
-- [ ] **Step 6: Build main project**
+- [x] **Step 6: Build main project**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -877,7 +877,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -896,7 +896,7 @@ git commit -m "feat(affix): add BaubleRoller and AffixPool"
 
 Takes a JSON string and returns an `AffixConfig`. We use `Newtonsoft.Json` because VS ships it (and we link the same DLL at runtime), but for tests we install the NuGet package locally so we don't link the VS-bound DLL into the test project.
 
-- [ ] **Step 1: Add Newtonsoft.Json to the test project**
+- [x] **Step 1: Add Newtonsoft.Json to the test project**
 
 Edit `tests/Baubles.Tests/Baubles.Tests.csproj` and add to the existing `PackageReference` `ItemGroup`:
 
@@ -904,7 +904,7 @@ Edit `tests/Baubles.Tests/Baubles.Tests.csproj` and add to the existing `Package
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 ```
 
-- [ ] **Step 2: Write the failing tests**
+- [x] **Step 2: Write the failing tests**
 
 Create `/home/illmatix/workspace/Baubles/tests/Baubles.Tests/AffixConfigLoaderTests.cs`:
 
@@ -973,7 +973,7 @@ public class AffixConfigLoaderTests
 }
 ```
 
-- [ ] **Step 3: Run, expect compile failure**
+- [x] **Step 3: Run, expect compile failure**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -982,7 +982,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: missing `AffixConfigLoader`.
 
-- [ ] **Step 4: Implement the loader**
+- [x] **Step 4: Implement the loader**
 
 Create `/home/illmatix/workspace/Baubles/src/Affix/AffixConfigLoader.cs`:
 
@@ -1018,7 +1018,7 @@ public static class AffixConfigLoader
 }
 ```
 
-- [ ] **Step 5: Add to test compile list**
+- [x] **Step 5: Add to test compile list**
 
 Append to the compile `ItemGroup` in `tests/Baubles.Tests/Baubles.Tests.csproj`:
 
@@ -1026,7 +1026,7 @@ Append to the compile `ItemGroup` in `tests/Baubles.Tests/Baubles.Tests.csproj`:
     <Compile Include="../../src/Affix/AffixConfigLoader.cs" Link="Affix/AffixConfigLoader.cs" />
 ```
 
-- [ ] **Step 6: Run tests**
+- [x] **Step 6: Run tests**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1035,7 +1035,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet test tests/Baubles.Tes
 
 Expected: 3 passed.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1052,7 +1052,7 @@ git commit -m "feat(affix): add AffixConfigLoader (Newtonsoft.Json → POCOs)"
 
 Wire up the minimum mod system so that the build deploys a loadable mod even before any features exist. This is the first task whose verification step requires launching the game.
 
-- [ ] **Step 1: Create the mod system skeleton**
+- [x] **Step 1: Create the mod system skeleton**
 
 Create `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`:
 
@@ -1071,7 +1071,7 @@ public class BaublesModSystem : ModSystem
 }
 ```
 
-- [ ] **Step 2: Build**
+- [x] **Step 2: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1080,14 +1080,14 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`. The post-build target deploys to `~/.config/VintagestoryData/Mods/Baubles/`.
 
-- [ ] **Step 3: In-game verification**
+- [x] **Step 3: In-game verification**
 
 Launch Vintage Story (`~/.local/share/vintagestory/Vintagestory --tracelog`), open the main menu's "Mods" panel, confirm "Baubles" appears in the list and the log contains:
 ```
 [Baubles] mod system starting
 ```
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1106,7 +1106,7 @@ git commit -m "feat: add BaublesModSystem skeleton (loads, logs notification)"
 
 These VS-bound types cannot easily be unit-tested — they take real `ItemStack` and `Collectible` instances. They are verified via Task 9's in-game checkpoint.
 
-- [ ] **Step 1: Create `BaublesUtil` (helpers for stack inspection)**
+- [x] **Step 1: Create `BaublesUtil` (helpers for stack inspection)**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/BaublesUtil.cs`:
 
@@ -1181,7 +1181,7 @@ public static class BaublesUtil
 }
 ```
 
-- [ ] **Step 2: Create `ItemSlotBauble`**
+- [x] **Step 2: Create `ItemSlotBauble`**
 
 Create `/home/illmatix/workspace/Baubles/src/Inventory/ItemSlotBauble.cs`:
 
@@ -1222,7 +1222,7 @@ public class ItemSlotBauble : ItemSlot
 }
 ```
 
-- [ ] **Step 3: Create `InventoryBaubles`**
+- [x] **Step 3: Create `InventoryBaubles`**
 
 Create `/home/illmatix/workspace/Baubles/src/Inventory/InventoryBaubles.cs`:
 
@@ -1294,7 +1294,7 @@ public class InventoryBaubles : InventoryBasePlayer
 }
 ```
 
-- [ ] **Step 4: Build**
+- [x] **Step 4: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1303,7 +1303,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`. (Warnings about VS DLL framework mismatch are expected and ignorable.)
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1323,7 +1323,7 @@ git commit -m "feat(inventory): add InventoryBaubles, ItemSlotBauble, BaublesUti
 
 After this task, the character screen will have a Baubles tab with four empty slots. No items yet.
 
-- [ ] **Step 1: Create the entity behavior**
+- [x] **Step 1: Create the entity behavior**
 
 Create `/home/illmatix/workspace/Baubles/src/Entity/EntityBehaviorBaubles.cs`:
 
@@ -1377,7 +1377,7 @@ public class EntityBehaviorBaubles : EntityBehavior
 }
 ```
 
-- [ ] **Step 2: Create the player entity JSON patch**
+- [x] **Step 2: Create the player entity JSON patch**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/patches/entityplayer-behaviors.json`:
 
@@ -1410,7 +1410,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/patches/entityplayer-beh
 ]
 ```
 
-- [ ] **Step 3: Create the GUI tab composer**
+- [x] **Step 3: Create the GUI tab composer**
 
 Create `/home/illmatix/workspace/Baubles/src/Gui/GuiBaublesTab.cs`:
 
@@ -1448,7 +1448,7 @@ public static class GuiBaublesTab
 }
 ```
 
-- [ ] **Step 4: Wire mod system to register behavior, hook character dialog, open inventory on join**
+- [x] **Step 4: Wire mod system to register behavior, hook character dialog, open inventory on join**
 
 Replace `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs` with:
 
@@ -1512,7 +1512,7 @@ public class BaublesModSystem : ModSystem
 }
 ```
 
-- [ ] **Step 5: Add the tab labels to the lang file**
+- [x] **Step 5: Add the tab labels to the lang file**
 
 Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 
@@ -1524,7 +1524,7 @@ Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 }
 ```
 
-- [ ] **Step 6: Build**
+- [x] **Step 6: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1533,7 +1533,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: In-game verification**
+- [x] **Step 7: In-game verification**
 
 1. Launch VS: `~/.local/share/vintagestory/Vintagestory --tracelog`
 2. Create a new singleplayer world (creative mode).
@@ -1544,7 +1544,7 @@ Expected: `0 Error(s)`.
 
 If the tab doesn't appear, check the log for `[Baubles]` lines and confirm the entity patch applied (search log for `entityplayer-behaviors.json`).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1569,7 +1569,7 @@ git commit -m "feat: add Baubles tab to character screen with empty slots"
 
 After this task we have three real items that can be equipped into their matching slots. No affixes yet.
 
-- [ ] **Step 1: Create the `ItemBauble` class**
+- [x] **Step 1: Create the `ItemBauble` class**
 
 Create `/home/illmatix/workspace/Baubles/src/Items/ItemBauble.cs`:
 
@@ -1595,7 +1595,7 @@ public class ItemBauble : Item, IBaubleItem
 }
 ```
 
-- [ ] **Step 2: Register `ItemBauble` in the mod system**
+- [x] **Step 2: Register `ItemBauble` in the mod system**
 
 Edit `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`. In `Start(ICoreAPI api)`, after the `RegisterEntityBehaviorClass` line, add:
 
@@ -1603,7 +1603,7 @@ Edit `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`. In `Start(ICore
         api.RegisterItemClass("ItemBauble", typeof(Baubles.Items.ItemBauble));
 ```
 
-- [ ] **Step 3: Create the three base item JSONs**
+- [x] **Step 3: Create the three base item JSONs**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/itemtypes/ring.json`:
 
@@ -1647,7 +1647,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/itemtypes/trinket.json`:
 }
 ```
 
-- [ ] **Step 4: Create placeholder PNG textures**
+- [x] **Step 4: Create placeholder PNG textures**
 
 ```bash
 cd /home/illmatix/workspace/Baubles/assets/baubles/textures/item
@@ -1663,7 +1663,7 @@ ls -la
 
 If ImageMagick is unavailable on this host, copy any 16x16 PNG you have into each path; the item will load with placeholder visuals.
 
-- [ ] **Step 5: Add language strings**
+- [x] **Step 5: Add language strings**
 
 Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 
@@ -1678,7 +1678,7 @@ Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 }
 ```
 
-- [ ] **Step 6: Build**
+- [x] **Step 6: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1687,7 +1687,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: In-game verification**
+- [x] **Step 7: In-game verification**
 
 1. Launch VS in creative mode.
 2. Open creative inventory, search for "ring", "bracelet", "trinket". All three appear.
@@ -1698,7 +1698,7 @@ Expected: `0 Error(s)`.
 7. Drop a trinket on the Trinket slot → accepted.
 8. Save world, reload. Verify all three are still equipped.
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1717,7 +1717,7 @@ git commit -m "feat(items): add ring, bracelet, trinket base bauble items"
 
 `GetHeldItemName` decides what string to show. Stack with `bauble.identified=false` → scrambled. Identified → "[Prefix] [Base] [of Suffix]". The actual roll logic comes later; this task just wires the display path so a hand-edited stack can be inspected.
 
-- [ ] **Step 1: Create `BaublesDisplay` (assembles the visible name)**
+- [x] **Step 1: Create `BaublesDisplay` (assembles the visible name)**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/BaublesDisplay.cs`:
 
@@ -1761,7 +1761,7 @@ public static class BaublesDisplay
 }
 ```
 
-- [ ] **Step 2: Override `GetHeldItemName` and `GetHeldItemInfo` on `ItemBauble`**
+- [x] **Step 2: Override `GetHeldItemName` and `GetHeldItemInfo` on `ItemBauble`**
 
 Replace `/home/illmatix/workspace/Baubles/src/Items/ItemBauble.cs`:
 
@@ -1803,7 +1803,7 @@ public class ItemBauble : Item, IBaubleItem
 }
 ```
 
-- [ ] **Step 3: Add language strings**
+- [x] **Step 3: Add language strings**
 
 Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 
@@ -1825,7 +1825,7 @@ Replace `/home/illmatix/workspace/Baubles/assets/baubles/lang/en.json`:
 }
 ```
 
-- [ ] **Step 4: Build**
+- [x] **Step 4: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1834,7 +1834,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 5: In-game verification (mid-feature — limited until rolling exists)**
+- [x] **Step 5: In-game verification (mid-feature — limited until rolling exists)**
 
 The default ring/bracelet/trinket items still appear as "Ring", "Bracelet", "Trinket" because they have neither `bauble.identified` nor `bauble.seed` set. They are baubles, so the not-identified branch fires and a scrambled name shows. To verify the scrambled path works without the roller yet:
 
@@ -1843,7 +1843,7 @@ The default ring/bracelet/trinket items still appear as "Ring", "Bracelet", "Tri
 
 Continue to Task 12 either way; full verification of display naming lives there.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -1866,7 +1866,7 @@ git commit -m "feat(items): override GetHeldItemName for scrambled/assembled dis
 
 Wire up the API surface and the in-memory registries. The affix registry starts empty; Task 14 populates it from JSON.
 
-- [ ] **Step 1: Create the public API interface**
+- [x] **Step 1: Create the public API interface**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/IBaublesAPI.cs`:
 
@@ -1899,7 +1899,7 @@ public interface IBaublesAPI
 }
 ```
 
-- [ ] **Step 2: Create `IAffixRegistry` and `AffixRegistry`**
+- [x] **Step 2: Create `IAffixRegistry` and `AffixRegistry`**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/IAffixRegistry.cs`:
 
@@ -1949,7 +1949,7 @@ public sealed class AffixRegistry : IAffixRegistry
 }
 ```
 
-- [ ] **Step 3: Create `IModifierRegistry` and `ModifierRegistry`**
+- [x] **Step 3: Create `IModifierRegistry` and `ModifierRegistry`**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/IModifierRegistry.cs`:
 
@@ -2031,7 +2031,7 @@ public sealed class ModifierRegistry : IModifierRegistry
 }
 ```
 
-- [ ] **Step 4: Create `BaublesAPI` (the concrete implementation)**
+- [x] **Step 4: Create `BaublesAPI` (the concrete implementation)**
 
 Create `/home/illmatix/workspace/Baubles/src/Api/BaublesAPI.cs`:
 
@@ -2106,7 +2106,7 @@ public sealed class BaublesAPI : IBaublesAPI
 }
 ```
 
-- [ ] **Step 5: Update `BaublesModSystem` to construct registries and API**
+- [x] **Step 5: Update `BaublesModSystem` to construct registries and API**
 
 Replace `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`:
 
@@ -2177,7 +2177,7 @@ public class BaublesModSystem : ModSystem
 }
 ```
 
-- [ ] **Step 6: Build**
+- [x] **Step 6: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2186,7 +2186,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2207,7 +2207,7 @@ git commit -m "feat(api): add IBaublesAPI, AffixRegistry, ModifierRegistry, Baub
 
 A creative-only item that, when right-clicked in hand, produces a freshly-rolled unidentified bauble of the current slot type, cycling through ring → bracelet → trinket on each subsequent press. Stack attribute `rollerSlotType` tracks the cycle position.
 
-- [ ] **Step 1: Create the roller item class**
+- [x] **Step 1: Create the roller item class**
 
 Create `/home/illmatix/workspace/Baubles/src/Items/ItemUnidentifiedRoller.cs`:
 
@@ -2259,7 +2259,7 @@ public class ItemUnidentifiedRoller : Item
 }
 ```
 
-- [ ] **Step 2: Register the item class in `BaublesModSystem.Start`**
+- [x] **Step 2: Register the item class in `BaublesModSystem.Start`**
 
 In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, immediately after `api.RegisterItemClass("ItemBauble", ...)`, add:
 
@@ -2267,7 +2267,7 @@ In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, immediately after
         api.RegisterItemClass("ItemUnidentifiedRoller", typeof(Baubles.Items.ItemUnidentifiedRoller));
 ```
 
-- [ ] **Step 3: Create the item JSON**
+- [x] **Step 3: Create the item JSON**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/itemtypes/unidentified-roller.json`:
 
@@ -2282,7 +2282,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/itemtypes/unidentified-r
 }
 ```
 
-- [ ] **Step 4: Create the texture**
+- [x] **Step 4: Create the texture**
 
 ```bash
 cd /home/illmatix/workspace/Baubles/assets/baubles/textures/item
@@ -2290,7 +2290,7 @@ which convert >/dev/null && convert -size 16x16 xc:'#3aa1a1' unidentified-roller
                        || echo "Install ImageMagick or hand-paint a 16x16 PNG."
 ```
 
-- [ ] **Step 5: Add lang entry**
+- [x] **Step 5: Add lang entry**
 
 In `assets/baubles/lang/en.json`, add inside the JSON object:
 
@@ -2298,7 +2298,7 @@ In `assets/baubles/lang/en.json`, add inside the JSON object:
   "item-unidentified-roller": "Unidentified Roller (debug)",
 ```
 
-- [ ] **Step 6: Build**
+- [x] **Step 6: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2307,7 +2307,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 7: In-game verification**
+- [x] **Step 7: In-game verification**
 
 1. Launch a creative world.
 2. `/giveitem baubles:unidentified-roller` (or fish it out of the creative inventory).
@@ -2317,7 +2317,7 @@ Expected: `0 Error(s)`.
 6. Drop the ring into Ring 1 slot on the Baubles tab → accepted.
 7. Save + reload world → ring still in slot, same gibberish name (seed-determinism check).
 
-- [ ] **Step 8: Commit**
+- [x] **Step 8: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2335,7 +2335,7 @@ git commit -m "feat(items): add ItemUnidentifiedRoller (creative debug)"
 
 Until now the `AffixRegistry` has been empty, so all rolls produce baubles with no prefix/suffix. This task loads the v1 starter pool from assets.
 
-- [ ] **Step 1: Create the affixes config asset**
+- [x] **Step 1: Create the affixes config asset**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/config/affixes.json`:
 
@@ -2368,7 +2368,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/config/affixes.json`:
 }
 ```
 
-- [ ] **Step 2: Hook `AssetsFinalize` in the mod system**
+- [x] **Step 2: Hook `AssetsFinalize` in the mod system**
 
 In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, add the following method to the class (after `Start`):
 
@@ -2392,7 +2392,7 @@ In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, add the following
     }
 ```
 
-- [ ] **Step 3: Build**
+- [x] **Step 3: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2401,13 +2401,13 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 4: In-game verification**
+- [x] **Step 4: In-game verification**
 
 1. Launch a creative world; check log for `[Baubles] loaded 3 prefixes, 3 suffixes`.
 2. Roll 10 baubles with the roller. Inspect their tree attributes via `/entity attribute` or by reading the save file — about ~75% should have a non-empty prefix code, ~75% a non-empty suffix code.
 3. Names still appear scrambled (correct — unidentified). Determinism: re-roll the same item type with the same seed (restart world to reset RNG state? — easier to set seed manually via a test). For now, trust the unit tests.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2425,7 +2425,7 @@ git commit -m "feat(affix): load starter affix pool from assets/baubles/config/a
 
 The bauble inventory must notify the behavior on slot changes so it can apply or remove modifiers and fire API events. We use the existing `OnItemSlotModified` virtual on `InventoryBase`, but we need to know the *previous* stack to remove its mods — that's stashed before the slot change in our subclass.
 
-- [ ] **Step 1: Track previous slot contents in `InventoryBaubles`**
+- [x] **Step 1: Track previous slot contents in `InventoryBaubles`**
 
 In `/home/illmatix/workspace/Baubles/src/Inventory/InventoryBaubles.cs`, add this field inside the class:
 
@@ -2460,7 +2460,7 @@ Also, in `FromTreeAttributes`, after `SlotsFromTreeAttributes(...)`, snapshot th
         }
 ```
 
-- [ ] **Step 2: React to slot changes in `EntityBehaviorBaubles`**
+- [x] **Step 2: React to slot changes in `EntityBehaviorBaubles`**
 
 Replace `/home/illmatix/workspace/Baubles/src/Entity/EntityBehaviorBaubles.cs`:
 
@@ -2599,7 +2599,7 @@ deliberately `public` so internal consumers can fire events without
 reflection. External mods should subscribe to the event surface
 (`OnBaubleEquipped` etc.) instead of calling these directly.)
 
-- [ ] **Step 3: Build**
+- [x] **Step 3: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2608,7 +2608,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 4: In-game verification (mid-feature — needs the lectern to identify)**
+- [x] **Step 4: In-game verification (mid-feature — needs the lectern to identify)**
 
 You can't see modifier effects until you can identify a bauble. To verify the wiring without the lectern, hand-set a bauble's `bauble.identified=true` via console:
 - If your VS version exposes a `/entity attribute` admin command, use it.
@@ -2616,7 +2616,7 @@ You can't see modifier effects until you can identify a bauble. To verify the wi
 
 What you CAN verify now: equipping an unidentified ring fires `OnBaubleEquipped` and unequipping fires `OnBaubleUnequipped`. Add a one-line `api.Logger.Notification("[Baubles] equip event")` subscription in `StartServerSide` (temporary) if you want a visible signal.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2643,7 +2643,7 @@ identify action. v1 uses the default `BlockEntityOpenableContainer` UI
 deferred to v1.1 because it requires a custom network channel to push
 the dialog open from server to client.
 
-- [ ] **Step 1: Create the lectern config asset**
+- [x] **Step 1: Create the lectern config asset**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/config/lectern.json`:
 
@@ -2651,7 +2651,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/config/lectern.json`:
 { "researchDurationSeconds": 60 }
 ```
 
-- [ ] **Step 2: Create the block class**
+- [x] **Step 2: Create the block class**
 
 Create `/home/illmatix/workspace/Baubles/src/Blocks/BlockScholarsLectern.cs`:
 
@@ -2677,7 +2677,7 @@ public class BlockScholarsLectern : Block
 }
 ```
 
-- [ ] **Step 3: Create the block entity**
+- [x] **Step 3: Create the block entity**
 
 Create `/home/illmatix/workspace/Baubles/src/Blocks/BEScholarsLectern.cs`:
 
@@ -2795,7 +2795,7 @@ public class BEScholarsLectern : BlockEntityOpenableContainer
 
 (Note: opening the inventory server-side via `InventoryManager.OpenInventory` pushes VS's default container dialog onto the client. That's the v1 UI — a slot with no progress bar. The implementer can read `BEScholarsLectern.ResearchProgressSeconds` if they want to add the bar later, but the network plumbing is non-trivial and is explicitly deferred to v1.1.)
 
-- [ ] **Step 4: Register block + BE in mod system**
+- [x] **Step 4: Register block + BE in mod system**
 
 In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, inside `Start(ICoreAPI api)`, after the existing `RegisterItemClass` lines, add:
 
@@ -2804,7 +2804,7 @@ In `/home/illmatix/workspace/Baubles/src/BaublesModSystem.cs`, inside `Start(ICo
         api.RegisterBlockEntityClass("BEScholarsLectern", typeof(Baubles.Blocks.BEScholarsLectern));
 ```
 
-- [ ] **Step 5: Create the block JSON**
+- [x] **Step 5: Create the block JSON**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/blocktypes/scholarslectern.json`:
 
@@ -2825,7 +2825,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/blocktypes/scholarslecte
 }
 ```
 
-- [ ] **Step 6: Create a placeholder texture**
+- [x] **Step 6: Create a placeholder texture**
 
 ```bash
 cd /home/illmatix/workspace/Baubles/assets/baubles/textures/block
@@ -2833,7 +2833,7 @@ which convert >/dev/null && convert -size 32x32 xc:'#6b4f2a' scholarslectern.png
                        || echo "Install ImageMagick or hand-paint a 32x32 PNG."
 ```
 
-- [ ] **Step 7: Add lang strings**
+- [x] **Step 7: Add lang strings**
 
 In `assets/baubles/lang/en.json` add:
 
@@ -2845,7 +2845,7 @@ In `assets/baubles/lang/en.json` add:
   "lectern-hint-progress": "Deciphering…",
 ```
 
-- [ ] **Step 8: Build**
+- [x] **Step 8: Build**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2854,7 +2854,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 Expected: `0 Error(s)`.
 
-- [ ] **Step 9: In-game verification**
+- [x] **Step 9: In-game verification**
 
 1. Creative world, give yourself a Scholar's Lectern: `/giveblock baubles:scholarslectern`.
 2. Place it. Right-click → a single-slot dialog opens (default container UI; the bespoke progress-bar dialog is a polish step — for v1 the default UI is acceptable).
@@ -2864,7 +2864,7 @@ Expected: `0 Error(s)`.
 6. Take it out, drop it into a Ring slot → modifiers apply (check `EntityPlayer.Stats` via `/stats` if available, or notice movement speed change for a `swift`/`of_swiftness` roll).
 7. Save + reload → still identified, still has mods applied.
 
-- [ ] **Step 10: Commit**
+- [x] **Step 10: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2881,7 +2881,7 @@ git commit -m "feat: add Scholar's Lectern block and timed identify"
 
 A simple grid recipe so survival players have a v1 source. The result is the `unidentified-roller` item — when held and right-clicked it produces an unidentified bauble of the cycling slot type. (We don't ship per-slot-type recipes; the roller is the v1 affordance.)
 
-- [ ] **Step 1: Create the recipe**
+- [x] **Step 1: Create the recipe**
 
 Create `/home/illmatix/workspace/Baubles/assets/baubles/recipes/grid/unidentified-bauble.json`:
 
@@ -2902,7 +2902,7 @@ Create `/home/illmatix/workspace/Baubles/assets/baubles/recipes/grid/unidentifie
 
 (Note: the exact `game:` codes may differ between 1.20 versions. If a code fails to resolve, log will show the failure and you can substitute — `game:gear-temporal` may simply be `game:gear-temporal-meteoriciron` or similar in your installed version. The recipe is a placeholder for the v1.1 loot-table replacement; don't agonise over ingredient choice.)
 
-- [ ] **Step 2: Build & verify**
+- [x] **Step 2: Build & verify**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2911,7 +2911,7 @@ DOTNET_ROOT=$HOME/.dotnet PATH=$HOME/.dotnet:$PATH dotnet build Baubles.csproj 2
 
 In a survival world, place the ingredients in the crafting grid and verify the unidentified roller comes out. If ingredient codes fail, check `~/.config/VintagestoryData/Logs/server-main.log` for "Unable to resolve" lines and substitute in the JSON.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
@@ -2928,7 +2928,7 @@ git commit -m "feat(recipes): add grid recipe for unidentified-roller"
 
 Update the README to reflect the shipped feature set and document the manual checklist for tagging 0.1.0.
 
-- [ ] **Step 1: Replace `/home/illmatix/workspace/Baubles/README.md` with:**
+- [x] **Step 1: Replace `/home/illmatix/workspace/Baubles/README.md` with:**
 
 ```markdown
 # Baubles Mod for Vintage Story
@@ -2996,7 +2996,7 @@ Multiplayer (host + one client):
 - [ ] Identifying on the server flips the client tooltip without reconnect.
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 cd /home/illmatix/workspace/Baubles
